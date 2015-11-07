@@ -57,7 +57,7 @@ def register():
                 "last_name":last_name,
                 "email":email, 
                 "password":password}))
-        auth = json.loads(r)["result"]
+        auth = json.loads(r.text)["result"]
         if(auth):
             session['email'] = email
         else:
