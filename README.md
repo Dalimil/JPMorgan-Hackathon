@@ -1,5 +1,4 @@
-# Flask-Reference
-Python Flask notes for quick reference
+# Urban Roots
 
 ## Installation
 
@@ -12,8 +11,3 @@ pip install -r requirements.txt
 ```sh
 python main.py
 ```
-## TODO
-Examples:
-* python requests
-* ajax $http()
-* mongo db demo
