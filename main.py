@@ -13,6 +13,11 @@ def index():
 def login():
     return render_template('login.html')
 
+@app.route('/register')
+	#handle new user registration here
+	# maybe doesn't have to be a separate .html file
+	return "ok"
+
 @app.route('/logout')
 def logout():
 	# close session and redirect to index
