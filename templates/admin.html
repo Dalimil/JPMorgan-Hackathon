@@ -11,10 +11,6 @@
 {% block content %}
 <body class="container">
 	<h1>Admin dashboard</h1>
-	<p>Info here</p>
-
-
-
 
 
 {% if loggedIn == False %}
@@ -24,8 +20,8 @@
 	<input type="text" name="username" value="">
 	<h2>Password:</h2>
 	<input type="password" name="password" value="">
-	<br>
-	<input type="submit" value="Login">
+	<br><br>
+	<button class="btn btn-primary" type="submit">Login</button>
 </form>
 
 {% else %}
