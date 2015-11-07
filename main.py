@@ -19,12 +19,16 @@ app.register_blueprint(api)
 @app.route('/')
 def index():
     email = None
+    all_project = None
+    my_project = None
     if 'email' in session:
         #loggedIn
         email = session['email']
+        my_project = json.loads(requests.post(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
+        all_project = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
         print('Logged in as {}'.format(email))
 
-    return render_template('index.html', email=email)
+    return render_template('index.html', email=email, all_project=all_project, my_project=my_project)
 
 @app.route('/login', methods=['POST'])
 def login():
