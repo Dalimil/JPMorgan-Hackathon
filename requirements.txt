@@ -5,3 +5,4 @@ Flask-Script==2.0.5
 Flask-Migrate==1.6.0
 gunicorn==19.3.0
 requests==2.7.0
+flask-googlemaps==0.1.8
