@@ -8,6 +8,7 @@ from models import User
 import requests
 import json
 from create_map import create_map
+from flask.ext.googlemaps import Map
 
 app = Flask(__name__)
 
@@ -21,6 +22,7 @@ app.register_blueprint(api)
 def index():
     email = None
     all_projects = None
+    all_projects_map = None
     my_projects = None
     if 'email' in session:
         #loggedIn
@@ -32,7 +34,7 @@ def index():
         print(all_projects)
         print('Logged in as {}'.format(email))
 
-    return render_template('index.html', email=email, all_projects=all_projects, my_projects=my_projects)
+    return render_template('index.html', email=email, all_projects=all_projects, all_projects_map=all_projects_map, my_projects=my_projects)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -97,13 +99,7 @@ def admin():
             loggedIn = True
             all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
 
-<<<<<<< HEAD
-
-
-    return render_template('admin.html', loggedIn=loggedIn)
-=======
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
->>>>>>> f8ef7cd5a955ea0e8ef6d4601a17e14efc923c17
 
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
