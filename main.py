@@ -24,8 +24,10 @@ def index():
     if 'email' in session:
         #loggedIn
         email = session['email']
-        my_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
-        all_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
+        my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
+        all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+        print(my_projects)
+        print(all_projects)
         print('Logged in as {}'.format(email))
 
     return render_template('index.html', email=email, all_projects=all_projects, my_projects=my_projects)
@@ -91,7 +93,7 @@ def admin():
         if 'admin' in session:
             #logged in as admin
             loggedIn = True
-            all_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
+            all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
