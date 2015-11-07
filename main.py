@@ -88,7 +88,8 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
-    all_projects = False
+    all_projects = None
+    all_users = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -100,6 +101,7 @@ def admin():
             #logged in as admin
             loggedIn = True
             all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+            all_users = json.loads(requests.get(url="https://5812d998.ngrok.com/users").text)["data"]
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
