@@ -7,65 +7,68 @@ app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
 
 @app.route('/')
 def index():
-	if 'username' in session:
-		# loggedIn
-		username = session['username']
+    username = None
+    if 'username' in session:
+        #loggedIn
+        username = session['username']
         print('Logged in as {}'.format(name))
 
-    return render_template('index.html')
+    return render_template('index.html', username=username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-	if request.method == 'POST':
-		username = request.form['username']
-		passw = request.form['password']
-		# check credentials against database here
-		valid = True
-		if(valid):
-			return redirect(url_for('index'))
-	
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        # check credentials against database here
+        valid = True
+        if(valid):
+            session['username'] = username
+            return redirect(url_for('index'))
+    
     return render_template('login.html')
 
 @app.route('/register', methods=['POST'])
-	#handle new user registration here
+def register():
+    #handle new user registration here
 
-	# get form data
-	# name = request.form['name']
-	# ...
+    # get form data
+    # name = request.form['name']
+    # ...
 
-	#save database
+    #save database
 
-	# log them in
-	#session['username'] = request.form['username']
+    # log them in
+    #session['username'] = username
 
-	# redirect
-	return redirect(url_for('index'))
+    # redirect
+    return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
-	# close session and redirect to index
-	session.pop('username', None)
+    # close session and redirect to index
+    session.pop('username', None)
     return redirect(url_for('index'))
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
-	loggedIn = False
-	if request.method == 'POST':
-		username = request.form['username']
-		password = request.form['password']
-		if(username=='admin' && password == 'admin'):
-			session['admin'] = True
-	else:
-		if 'admin' in session:
-			#logged in as admin
-			loggedIn = True
+    loggedIn = False
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if(username=='admin' and password == 'admin'):
+            session['admin'] = True
+    else:
+        if 'admin' in session:
+            #logged in as admin
+            loggedIn = True
 
 
-	return render_template('admin.html', loggedIn=loggedIn)
+    return render_template('admin.html', loggedIn=loggedIn)
 
 @app.route('/report')
 def report():
-	return render_template('report.html')
+    return render_template('report.html')
 
 if __name__ == '__main__':
     app.run(port=8080, debug=True) 
