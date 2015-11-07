@@ -15,12 +15,18 @@ class User(db.Model):
     last_name = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(40))
+    address = db.Column(db.String(120))
+    phone = db.Column(db.String(20))
+    interests = db.relationship('Interest', backref='person',
+                                lazy='dynamic')
 
-    def __init__(self, first_name, last_name, email, password):
+    def __init__(self, first_name, last_name, email, password, address, phone):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.password = password
+        self.address = address
+        self.phone = phone
 
     def __str__(self):
         return "{0} {1} {2} {3}".format(self.first_name, self.last_name, self.email, self.password)
@@ -30,5 +36,19 @@ class Project(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-    img = db.Column(db.Text)
+    description = db.Column(db.Text)
+    image = db.Column(db.Text)
+    address = db.Column(db.String(120))
+    num_people = db.Column(db.Integer)
+
     users = db.relationship("User",secondary=user_identifier)
+
+class Interest(db.Model):
+    __tablename__ = "interests"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self,name):
+        self.name = name

@@ -19,7 +19,7 @@ def authenticate():
 @api.route("/create_user", methods=['POST'])
 def create_user():
 	user = json.loads(request.data)
-	user = User(user["first_name"], user["last_name"], user["email"], user["password"])
+	user = User(user["first_name"], user["last_name"], user["email"], user["password"], user["address"],user["phone"])
 	db.session.add(user)
 	db.session.commit()
 	
