@@ -15,7 +15,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-	# close session
+	# close session and redirect to index
     return "logout"
 
 @app.route('/admin')
