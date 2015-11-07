@@ -31,7 +31,7 @@ def login():
     email = request.form['email']
     password = request.form['password']
     # check credentials against database here
-    r = requests.post(url="http://localhost:8080/authenticate",data=json.dumps({"email":email, "password":password}))
+    r = requests.post(url="https://5812d998.ngrok.com/authenticate",data=json.dumps({"email":email, "password":password}))
     
     auth = json.loads(r.text)["result"]
 
@@ -49,12 +49,16 @@ def register():
     last_name = request.form['last_name']
     email = request.form['email']
     password = request.form['password']
-    r = requests.post(url="http://localhost:8080/create_user",
+    address = request.form['address']
+    phone = request.form['phone']
+    r = requests.post(url="https://5812d998.ngrok.com/create_user",
         data=json.dumps({
             "first_name":first_name,
             "last_name":last_name,
             "email":email, 
-            "password":password}))
+            "password":password,
+            "address":address,
+            "phone":phone}))
     auth = json.loads(r.text)["result"]
     if(auth):
         session['email'] = email
