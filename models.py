@@ -1,4 +1,7 @@
 from flask.ext.sqlalchemy import SQLAlchemy
+from random import random
+import requests
+import json
 
 db = SQLAlchemy()
 
@@ -16,6 +19,8 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(40))
     address = db.Column(db.String(120))
+    lat = db.Column(db.Float)
+    lng = db.Column(db.Float)
     phone = db.Column(db.String(20))
     interests = db.relationship('Interest', backref='person',
                                 lazy='dynamic')
@@ -28,6 +33,12 @@ class User(db.Model):
         self.address = address
         self.phone = phone
 
+        r = requests.get(url="http://maps.googleapis.com/maps/api/geocode/json?address=" + address)
+        data=json.loads(r.text)
+        bounds = data["results"][0]["geometry"]["bounds"]
+        self.lat = bounds["southwest"]["lat"] + random()*(bounds["northeast"]["lat"]-bounds["southwest"]["lat"])
+        self.lng = bounds["southwest"]["lng"] + random()*(bounds["northeast"]["lng"]-bounds["southwest"]["lng"])
+
     def __str__(self):
         return "{0} {1} {2} {3}".format(self.first_name, self.last_name, self.email, self.password)
 
@@ -39,6 +50,8 @@ class Project(db.Model):
     description = db.Column(db.Text)
     image = db.Column(db.Text, nullable=False, default='')
     address = db.Column(db.String(120))
+    lat = db.Column(db.Float)
+    lng = db.Column(db.Float)
     num_people = db.Column(db.Integer)
 
     users = db.relationship("User",secondary=user_identifier)
@@ -48,6 +61,13 @@ class Project(db.Model):
         self.description = description
         self.address = address
         self.num_people = num_people
+
+        r = requests.get(url="http://maps.googleapis.com/maps/api/geocode/json?address=" + address)
+        data=json.loads(r.text)
+
+        self.lat = data["results"][0]["geometry"]["location"]["lat"]
+        self.lng = data["results"][0]["geometry"]["location"]["lng"]
+
         if image:
             self.image = image
 
