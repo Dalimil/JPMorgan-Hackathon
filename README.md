@@ -1,5 +1,9 @@
 # Urban Roots
 
+## Team info
+
+Find your .html file in the templates folder 
+
 ## Installation
 
 #### Install required packages
