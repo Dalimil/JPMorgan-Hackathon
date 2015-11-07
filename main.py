@@ -120,7 +120,7 @@ def volunteer():
         return redirect(url_for('admin'))
 
 
-@app.route('/admin/projects',methods=['POST'])
+@app.route('/admin/projects',methods=['GET','POST'])
 def projects():
     if 'admin' in session:
         if request.method == 'POST':
@@ -131,6 +131,8 @@ def projects():
             num_people = request.form['num_people']
         if (projectname == '' or description == '' or address == '' or num_people == ''):
             print "Could not submit: empty field"
+	
+    return render_template('projects.html');
                    
 
 
