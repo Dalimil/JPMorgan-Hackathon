@@ -9,8 +9,10 @@ import requests
 import json
 from create_map import create_map
 from flask.ext.googlemaps import Map
+from flask.ext.googlemaps import GoogleMaps
 
 app = Flask(__name__)
+GoogleMaps(app)
 
 app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
 
