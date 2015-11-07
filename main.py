@@ -7,14 +7,15 @@ app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
 
 @app.route('/')
 def index():
-    return "hello world"
+    return render_template('index.html')
 
 @app.route('/login')
 def login():
-    return "login"
+    return render_template('login.html')
 
 @app.route('/logout')
 def logout():
+	# close session
     return "logout"
 
 @app.route('/admin')
