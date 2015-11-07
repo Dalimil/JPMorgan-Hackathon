@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Index{% endblock %}
+{% block title %}Urban Roots{% endblock %}
 {% block head %}
   {{ super() }}
   <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
@@ -129,6 +129,152 @@
 {% endblock %}
 
 {% block content %}
+{% if email %}
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="/logout">LOGOUT</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#my-projects">MY PROJECTS</a></li>
+        <li><a href="#all-projects">ALL PROJECTS</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron text-center">
+	<div class="row">
+		<div class="col-sm-offset-1 col-sm-5">
+		<h1>Hi {{ email }}</h1>
+		</div>
+		<div class="col-sm-offset-2 col-sm-4">
+			<img width="50%"; src="{{ url_for('static', filename='img/logo.png') }}"> 
+		</div>
+
+	</div>
+</div>
+
+<div id="my-projects" class="container-fluid text-center">
+  <h2>MY PROJECTS</h2>
+  <h3>Here you can see all projects that you have signed up to.</h3>
+  <br><br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-apple logo-small"></span>
+      <h4>GARDENING</h4>
+      <p>Want to learn how to grow your own fruit and veg? <br />Our weekly volunteer team is an ideal place to start,  growing together in our community gardens.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-tree-conifer logo-small"></span>
+      <h4>WOODLAND</h4>
+      <p>The conservation volunteers meet every Thursday on the site,  learning a range of conservation skills and working as a team.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-briefcase logo-small"></span>
+      <h4>WORKSHOPS</h4>
+      <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
+    </div>
+  </div>
+  <br><br>
+</div>
+<div id="all-projects" class="container-fluid text-center">
+  <h2>ALL PROJECTS</h2>
+  <h3>Find projects that might interest you.</h3>
+  <br><br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-apple logo-small"></span>
+      <h4>GARDENING</h4>
+      <p>Want to learn how to grow your own fruit and veg? <br />Our weekly volunteer team is an ideal place to start,  growing together in our community gardens.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-tree-conifer logo-small"></span>
+      <h4>WOODLAND</h4>
+      <p>The conservation volunteers meet every Thursday on the site,  learning a range of conservation skills and working as a team.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-briefcase logo-small"></span>
+      <h4>WORKSHOPS</h4>
+      <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
+    </div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-leaf logo-small"></span>
+      <h4>GREEN</h4>
+      <p>We want to get more people out of their cars and using low carbon forms of transport,  whether that’s trains and buses or (preferably) bikes! </p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-certificate logo-small"></span>
+      <h4>RENEWABLE</h4>
+      <p>Our Renewables System is available for hire! <br />This portable system incorporate solar and wind,  and is ideal for community events that need power for a PA system. </p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-wrench logo-small"></span>
+      <h4 style="color:#303030;">HARD WORK</h4>
+      <p>This covers a whole load of things from Creative Re-Use (upcycling),  to Herbal Medicine,  Foraging,  Living Willow Structures and Basket Making… </p>
+    </div>
+  </div>
+</div>
+
+
+<footer class="container-fluid text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <p>Back to top</p>		
+</footer>
+
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+    // Prevent default anchor click behavior
+    event.preventDefault();
+
+    // Store hash
+    var hash = this.hash;
+
+    // Using jQuery's animate() method to add smooth page scroll
+    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+    $('html, body').animate({
+      scrollTop: $(hash).offset().top
+    }, 900, function(){
+   
+      // Add hash (#) to URL when done scrolling (default click behavior)
+      window.location.hash = hash;
+    });
+  });
+  
+  // Slide in elements on scroll
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
+
+</body>
+
+{% else %}
+
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -215,6 +361,16 @@
 			  	<div class="col-sm-12 form-group">
 			        <label for="ex1">Password</label>
 			        <input type="password" name="password" class="form-control" size="30" placeholder="Password" required>
+			    </div>
+			    </div>
+			    <div class="row">
+			  	<div class="col-sm-6 form-group">
+			        <label for="ex1">Phone Number</label>
+			        <input type="text" name="phone" class="form-control" size="30" placeholder="Phone number" required>
+			    </div>
+			  	<div class="col-sm-6 form-group">
+			        <label for="ex1">Postcode</label>
+			        <input type="text" name="postcode" class="form-control" size="30" placeholder="Postcode - e.g. G13 1AE" required>
 			    </div>
 			    </div>
 			    <div class="row form-group">
@@ -345,6 +501,7 @@ $(document).ready(function(){
 </script>
 
 </body>
+{% endif %}
 {% endblock %}
 
     
