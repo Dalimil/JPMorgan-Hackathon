@@ -87,9 +87,5 @@ def admin():
 def report():
     return render_template('report.html')
 
-@app.route('/check_login')
-def check_login():
-    return "A"
-
 if __name__ == '__main__':
     app.run(port=8080, debug=True) 
