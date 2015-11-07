@@ -89,6 +89,22 @@ def admin():
 
     return render_template('admin.html', loggedIn=loggedIn)
 
+@app.route('/admin/volunteer', methods=['GET', 'POST'])
+def volunteer():
+    if 'admin' in session:
+        if request.method == 'POST':
+            firstname = request.form['firstname']
+            lastname = request.form['lastname']
+            email = request.form['email']
+            postcode = request.form['postcode']
+            interests = request.form['interests']
+             
+        return render_template('volunteer.html');
+		
+    else 
+        return redirect(url_for('admin'))
+
+
 @app.route('/report')
 def report():
     return render_template('report.html')
