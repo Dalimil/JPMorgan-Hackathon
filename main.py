@@ -75,6 +75,7 @@ def admin():
         password = request.form['password']
         if(username=='admin' and password == 'admin'):
             session['admin'] = True
+        return redirect(url_for('admin'))
     else:
         if 'admin' in session:
             #logged in as admin
