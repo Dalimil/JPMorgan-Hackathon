@@ -10,30 +10,36 @@ app = Flask(__name__)
 
 
 app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
+
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wigdnybtvbxjyl:VI5y4w1SgdVdoEDUyCFBmKyqVH@ec2-46-137-72-123.eu-west-1.compute.amazonaws.com:5432/dd5fh71aujkvoq"
 db.init_app(app)
 app.register_blueprint(api)
 
+    def __str__(self):
+        return "{0} {1} {2} {3}".format(self.first_name, self.last_name, self.email, self.password)
+
 @app.route('/')
 def index():
-    username = None
-    if 'username' in session:
+    email = None
+    if 'email' in session:
         #loggedIn
-        username = session['username']
-        print('Logged in as {}'.format(name))
+        email = session['email']
+        print('Logged in as {}'.format(email))
 
-    return render_template('index.html', username=username)
+    return render_template('index.html', email=email)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         # check credentials against database here
-        valid = True
-        if(valid):
-            session['username'] = username
+        user = User.query.filter_by(email=email, password=password).first()
+        if(user):
+            session['email'] = email
             return redirect(url_for('index'))
+        else:
+            print "Bad login"
     
     return render_template('login.html')
 
@@ -48,7 +54,7 @@ def register():
     #save database
 
     # log them in
-    #session['username'] = username
+    #session['email'] = email
 
     # redirect
     return redirect(url_for('index'))
@@ -57,16 +63,18 @@ def register():
 def logout():
     # close session and redirect to index
     session.pop('username', None)
+    session.pop('admin', None)
     return redirect(url_for('index'))
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
     if request.method == 'POST':
-        username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        if(username=='admin' and password == 'admin'):
+        if(email=='admin' and password == 'admin'):
             session['admin'] = True
+        return redirect(url_for('admin'))
     else:
         if 'admin' in session:
             #logged in as admin
