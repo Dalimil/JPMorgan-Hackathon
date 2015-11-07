@@ -6,6 +6,7 @@ from api import api
 from models import db
 from models import User
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -47,7 +48,7 @@ def register():
     if request.method == 'POST':
         first_name = request.form['first_name']
         last_name = request.form['last_name']
-        email = request.form['user']
+        email = request.form['email']
         password = request.form['password']
         r = requests.post(url="http://localhost:8080/create_user",
             data=json.dumps({
@@ -60,10 +61,8 @@ def register():
             session['email'] = email
             return redirect(url_for('index'))
         else:
-            print "Registration error"
+            print "Error during registration"
     return render_template('register.html')
-
-    return redirect(url_for('index'))
 
 @app.route('/logout')
 def logout():
