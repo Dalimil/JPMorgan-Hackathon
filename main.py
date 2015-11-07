@@ -88,10 +88,12 @@ def admin():
             loggedIn = True
 
 
+
     return render_template('admin.html', loggedIn=loggedIn)
 
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
+    return render_template('volunteer.html')
     if 'admin' in session:
         if request.method == 'POST':
             firstname = request.form['firstname']
@@ -104,6 +106,21 @@ def volunteer():
  
     else:
         return redirect(url_for('admin'))
+
+
+@app.route('/admin/projects',methods=['POST'])
+def projects():
+    if 'admin' in session:
+        if request.method == 'POST':
+            projectname = request.form['projectname']
+            description = request.form['description']
+            
+            address = request.form['address']
+            num_people = request.form['num_people']
+        if (projectname == '' or description == '' or address == '' or num_people == ''):
+            print "Could not submit: empty field"
+                   
+
 
 
 @app.route('/report')
