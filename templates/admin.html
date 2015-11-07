@@ -12,7 +12,32 @@
 <body class="container">
 	<h1>Admin dashboard</h1>
 	<p>Info here</p>
+
+{% if loggedIn %}
+
+<form action="" method="POST">
+	<h2>Username:</h2>
+	<input type="text" value="username">
+	<h2>Password:</h2>
+	<input type="password" value="password">
+	<input type="submit" value="Login">
+</form>
+
+{% else %}
+
+<div class="navbar">
+<ul> 
+	<li><a href="">Volunteers</a></li>
+	<li><a href="">Events</a></li>
+	<li><a href="">Stats</a></li>
+</ul>
+</div>
+
+
+
+{% endif %}
 </body>
+
 {% endblock %}
 
     
