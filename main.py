@@ -3,7 +3,8 @@ from flask import render_template, request, redirect, session, url_for, escape, 
 
 app = Flask(__name__)
 app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+db = SQLAlchemy(app)
 
 @app.route('/')
 def index():
