@@ -34,7 +34,7 @@ class User(db.Model):
         self.phone = phone
 
         r = requests.get(url="http://maps.googleapis.com/maps/api/geocode/json?address=" + address)
-        data=json.loads(r)
+        data=json.loads(r.text)
         bounds = data["results"][0]["geometry"]["bounds"]
         self.lat = bounds["southwest"]["lat"] + random()*(bounds["northeast"]["lat"]-bounds["southwest"]["lat"])
         self.lng = bounds["southwest"]["lng"] + random()*(bounds["northeast"]["lng"]-bounds["southwest"]["lng"])

@@ -95,10 +95,17 @@ def admin():
             loggedIn = True
             all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
 
+<<<<<<< HEAD
+
+
+    return render_template('admin.html', loggedIn=loggedIn)
+=======
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
+>>>>>>> f8ef7cd5a955ea0e8ef6d4601a17e14efc923c17
 
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
+    return render_template('volunteer.html')
     if 'admin' in session:
         if request.method == 'POST':
             firstname = request.form['firstname']
@@ -111,6 +118,21 @@ def volunteer():
  
     else:
         return redirect(url_for('admin'))
+
+
+@app.route('/admin/projects',methods=['POST'])
+def projects():
+    if 'admin' in session:
+        if request.method == 'POST':
+            projectname = request.form['projectname']
+            description = request.form['description']
+            
+            address = request.form['address']
+            num_people = request.form['num_people']
+        if (projectname == '' or description == '' or address == '' or num_people == ''):
+            print "Could not submit: empty field"
+                   
+
 
 
 @app.route('/report')
