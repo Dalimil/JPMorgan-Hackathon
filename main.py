@@ -17,5 +17,13 @@ def login():
 def logout():
     return "logout"
 
+@app.route('/admin')
+def admin():
+	return render_template('admin.html')
+
+@app.route('/report')
+def report():
+	return render_template('report.html')
+
 if __name__ == '__main__':
     app.run(port=8080, debug=True) 
