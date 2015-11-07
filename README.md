@@ -22,3 +22,10 @@ pip install -r requirements.txt
 ```sh
 python main.py
 ```
+
+### Update database:
+```sh
+python manage.py db init
+python manage.py db migrate
+python manage.py db upgrade
+```

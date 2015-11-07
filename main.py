@@ -10,15 +10,16 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
+    first_name = db.Column(db.String(80))
+    last_name = db.Column(db.String(80))
     email = db.Column(db.String(120), unique=True)
+    password = db.Column(db.String(40))
 
-    def __init__(self, name, email):
-        self.name = name
+    def __init__(self, first_name, last_name, email, password):
+        self.first_name = first_name
+        self.last_name = last_name
         self.email = email
-
-    def __repr__(self):
-        return '<Name %r>' % self.name
+        self.password = password
 
 @app.route('/')
 def index():
