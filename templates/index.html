@@ -43,7 +43,7 @@
   }
   .logo {
       color: #00833a;
-      font-size: 200px;
+      font-size: 220px;
   }
   .thumbnail {
       padding: 0 0 15px 0;
@@ -144,6 +144,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#about">ABOUT</a></li>
+        <li><a href="#register">REGISTER</a></li>
         <li><a href="#services">PROJECTS</a></li>
         <li><a href="#contact">CONTACT</a></li>
       </ul>
@@ -190,61 +191,65 @@
 
 <div id="register" class="container-fluid bg-grey">
 	<div class="row">
-		<div class="col-sm-12">
+
+		<div class="col-sm-offset-2 col-sm-5">
 		<h2>Register</h2>
 			<form action="/register" method="POST" class="form-group">
 			  	<div class="row form-group">
-			  	<div class="col-sm-3">
+			  	<div class="col-sm-6">
 			        <label for="ex1">First Name</label>
 			        <input type="text" name="first_name" class="form-control" placeholder="First Name">
 			    </div>
-			    <div class="col-sm-3">
+			    <div class="col-sm-6">
 			        <label for="ex1">Last Name</label>
 			        <input type="text" name="last_name" class="form-control" size="13" placeholder="Last Name">
 			    </div>
 			    </div>
 			    <div class="row form-group">
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 			        <label for="ex1">Email Address</label>
 			        <input type="email" name="email" class="form-control" size="30" placeholder="Email Address" required>
 			    </div>
 			    </div>
 			    <div class="row">
-			  	<div class="col-sm-6 form-group">
+			  	<div class="col-sm-12 form-group">
 			        <label for="ex1">Password</label>
 			        <input type="password" name="password" class="form-control" size="30" placeholder="Password" required>
 			    </div>
 			    </div>
 			    <div class="row form-group">
-			    	<div class="col-sm-6">  
+			    	<div class="col-sm-12">  
 			    	<button type="button" class="btn btn-danger btn-lg">Register</button>
 			    	</div>
 			    </div>
 			  </form>
 	    </div>
+	    <div class="col-sm-5">
+		<div style="text-align: center;margin:50px;"><span class="glyphicon glyphicon-cog logo slideanim"></span></div>
+		</div>
 	</div>
 </div>
 
 <!-- Container (Services Section) -->
 <div id="services" class="container-fluid text-center">
   <h2>PROJECTS</h2>
-  <h4>What we offer</h4>
-  <br>
+  <h3>We deliver projects that inspire and enthuse people<br /> to take positive steps to improve their environment and quality of life.</h3>
+  <br><br>
   <div class="row slideanim">
     <div class="col-sm-4">
-      <span class="glyphicon glyphicon-off logo-small"></span>
-      <h4>POWER</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
+      <span class="glyphicon glyphicon-apple logo-small"></span>
+      <h4>GARDENING</h4>
+      <p>Want to learn how to grow your own fruit and veg? <br />Our weekly volunteer team is an ideal place to start,  growing together in our community gardens.</p>
     </div>
     <div class="col-sm-4">
-      <span class="glyphicon glyphicon-heart logo-small"></span>
-      <h4>LOVE</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
+      <span class="glyphicon glyphicon-tree-conifer logo-small"></span>
+      <h4>WOODLAND</h4>
+      <p>The conservation volunteers meet every Thursday on the site,  learning a range of conservation skills and working as a team.</p>
     </div>
     <div class="col-sm-4">
-      <span class="glyphicon glyphicon-lock logo-small"></span>
-      <h4>JOB DONE</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
+      <span class="glyphicon glyphicon-briefcase logo-small"></span>
+      <h4>WORKSHOPS</h4>
+      <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
     </div>
   </div>
   <br><br>
@@ -252,17 +257,17 @@
     <div class="col-sm-4">
       <span class="glyphicon glyphicon-leaf logo-small"></span>
       <h4>GREEN</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
+      <p>We want to get more people out of their cars and using low carbon forms of transport,  whether that’s trains and buses or (preferably) bikes! </p>
     </div>
     <div class="col-sm-4">
       <span class="glyphicon glyphicon-certificate logo-small"></span>
-      <h4>CERTIFIED</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
+      <h4>RENEWABLE</h4>
+      <p>Our Renewables System is available for hire! <br />This portable system incorporate solar and wind,  and is ideal for community events that need power for a PA system. </p>
     </div>
     <div class="col-sm-4">
       <span class="glyphicon glyphicon-wrench logo-small"></span>
       <h4 style="color:#303030;">HARD WORK</h4>
-      <p>Lorem ipsum dolor sit amet..</p>
+      <p>This covers a whole load of things from Creative Re-Use (upcycling),  to Herbal Medicine,  Foraging,  Living Willow Structures and Basket Making… </p>
     </div>
   </div>
 </div>
