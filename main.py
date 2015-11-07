@@ -36,11 +36,10 @@ def login():
         auth = json.loads(r)["result"]
         if(auth):
             session['email'] = email
-            return redirect(url_for('index'))
         else:
             print "Bad login"
     
-    return render_template('login.html')
+    return redirect(url_for("index"))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -59,10 +58,9 @@ def register():
         auth = json.loads(r)["result"]
         if(auth):
             session['email'] = email
-            return redirect(url_for('index'))
         else:
             print "Error during registration"
-    return render_template('register.html')
+    return redirect(url_for("index"))
 
 @app.route('/logout')
 def logout():
@@ -109,4 +107,4 @@ def report():
     return render_template('report.html')
 
 if __name__ == '__main__':
-    app.run(port=8080, debug=True) 
+    app.run(port=8080, debug=True, threaded=True) 

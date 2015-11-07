@@ -3,14 +3,347 @@
 {% block title %}Index{% endblock %}
 {% block head %}
   {{ super() }}
-  <style type="text/css">
-   /* extend here */
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <style>
+  body {
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #818181;
+  }
+  h2 {
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 30px;
+  }
+  h4 {
+      font-size: 19px;
+      line-height: 1.375em;
+      color: #303030;
+      font-weight: 400;
+      margin-bottom: 30px;
+  }  
+  .jumbotron {
+      background-color: #00833a;
+      color: #fff;
+      padding: 100px 25px 50px;
+      font-family: Montserrat, sans-serif;
+  }
+  .container-fluid {
+      padding: 60px 50px;
+  }
+  .bg-grey {
+      background-color: #f6f6f6;
+  }
+  .logo-small {
+      color: #00833a;
+      font-size: 50px;
+  }
+  .logo {
+      color: #00833a;
+      font-size: 220px;
+  }
+  .thumbnail {
+      padding: 0 0 15px 0;
+      border: none;
+      border-radius: 0;
+  }
+  .thumbnail img {
+      width: 100%;
+      height: 100%;
+      margin-bottom: 10px;
+  }
+  .navbar {
+      margin-bottom: 0;
+      background-color: #00833a;
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #00833a !important;
+      background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+      color: #fff !important;
+  }
+  footer .glyphicon {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #00833a;
+  }
+  .slideanim {visibility:hidden;}
+  .slide {
+      animation-name: slide;
+      -webkit-animation-name: slide;	
+      animation-duration: 1s;	
+      -webkit-animation-duration: 1s;
+      visibility: visible;			
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }	
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+        font-size: 150px;
+    }
+  }
   </style>
 {% endblock %}
 
 {% block content %}
-<body class="container">
-	<h1>Index page</h1>
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#myPage">Urban Roots</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#about">ABOUT</a></li>
+        <li><a href="#register">REGISTER</a></li>
+        <li><a href="#services">PROJECTS</a></li>
+        <li><a href="#contact">CONTACT</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="jumbotron text-center">
+  <img src="{{ url_for('static', filename='img/logo.png') }}"> 
+  <p>Community Led Environmental Projects<br />In The South Side Of Glasgow</p> <br /><br />
+  <form method="POST" action="/login" class="form-horizontal">
+  	<div class="form-group">
+      <div class="col-sm-offset-5 col-sm-2">
+        <input type="email" class="form-control" name="email" placeholder="Enter email">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-5 col-sm-2">          
+        <input type="password" class="form-control" name="password" placeholder="Enter password">
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-5 col-sm-2">
+        <button type="submit" class="btn btn-danger btn-lg">Login</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div id="about" class="container-fluid">
+  <div class="row">
+    <div class="col-sm-4">
+      <div style="text-align: center;margin:50px;"><span class="glyphicon glyphicon-leaf logo slideanim"></span></div>
+    </div>
+    <div class="col-sm-8">
+      <h2>About Urban Roots</h2>
+      <h3>We are a community led organisation working across the Southside of Glasgow.</h3><br>
+      <h4><strong>MISSION:</strong> We are committed to working with local people on projects that improve the environment and health of the area through a range of activities including community gardening, conservation and biodiversity, and planet friendly living. 
+      </h4>
+      <p><strong>OUR ETHOS:</strong> Urban Roots believes that our earth’s climate and ecosystems are under strain from the impact of human activity. We believe that by working collectively we can find solutions for a sustainable future.</p>
+    </div>
+  </div>
+</div>
+
+<div id="register" class="container-fluid bg-grey">
+	<div class="row">
+
+		<div class="col-sm-offset-2 col-sm-5">
+		<h2>Register</h2>
+			<form action="/register" method="POST" class="form-group">
+			  	<div class="row form-group">
+			  	<div class="col-sm-6">
+			        <label for="ex1">First Name</label>
+			        <input type="text" name="first_name" class="form-control" placeholder="First Name">
+			    </div>
+			    <div class="col-sm-6">
+			        <label for="ex1">Last Name</label>
+			        <input type="text" name="last_name" class="form-control" size="13" placeholder="Last Name">
+			    </div>
+			    </div>
+			    <div class="row form-group">
+				<div class="col-sm-12">
+			        <label for="ex1">Email Address</label>
+			        <input type="email" name="email" class="form-control" size="30" placeholder="Email Address" required>
+			    </div>
+			    </div>
+			    <div class="row">
+			  	<div class="col-sm-12 form-group">
+			        <label for="ex1">Password</label>
+			        <input type="password" name="password" class="form-control" size="30" placeholder="Password" required>
+			    </div>
+			    </div>
+			    <div class="row form-group">
+			    	<div class="col-sm-12">  
+			    	<button type="button" class="btn btn-danger btn-lg">Register</button>
+			    	</div>
+			    </div>
+			  </form>
+	    </div>
+	    <div class="col-sm-5">
+		<div style="text-align: center;margin:50px;"><span class="glyphicon glyphicon-cog logo slideanim"></span></div>
+		</div>
+	</div>
+</div>
+
+<!-- Container (Services Section) -->
+<div id="services" class="container-fluid text-center">
+  <h2>PROJECTS</h2>
+  <h3>We deliver projects that inspire and enthuse people<br /> to take positive steps to improve their environment and quality of life.</h3>
+  <br><br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-apple logo-small"></span>
+      <h4>GARDENING</h4>
+      <p>Want to learn how to grow your own fruit and veg? <br />Our weekly volunteer team is an ideal place to start,  growing together in our community gardens.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-tree-conifer logo-small"></span>
+      <h4>WOODLAND</h4>
+      <p>The conservation volunteers meet every Thursday on the site,  learning a range of conservation skills and working as a team.</p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-briefcase logo-small"></span>
+      <h4>WORKSHOPS</h4>
+      <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
+    </div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-leaf logo-small"></span>
+      <h4>GREEN</h4>
+      <p>We want to get more people out of their cars and using low carbon forms of transport,  whether that’s trains and buses or (preferably) bikes! </p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-certificate logo-small"></span>
+      <h4>RENEWABLE</h4>
+      <p>Our Renewables System is available for hire! <br />This portable system incorporate solar and wind,  and is ideal for community events that need power for a PA system. </p>
+    </div>
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-wrench logo-small"></span>
+      <h4 style="color:#303030;">HARD WORK</h4>
+      <p>This covers a whole load of things from Creative Re-Use (upcycling),  to Herbal Medicine,  Foraging,  Living Willow Structures and Basket Making… </p>
+    </div>
+  </div>
+</div>
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container-fluid bg-grey">
+  <h2 class="text-center">CONTACT</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <p>Contact us and we'll get back to you within 24 hours.</p>
+      <p><span class="glyphicon glyphicon-map-marker"></span> Glasgow, UK</p>
+      <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>	   
+    </div>
+    <div class="col-sm-7 slideanim">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit">Send</button>
+        </div>
+      </div>	
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <p>Back to top</p>		
+</footer>
+
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+    // Prevent default anchor click behavior
+    event.preventDefault();
+
+    // Store hash
+    var hash = this.hash;
+
+    // Using jQuery's animate() method to add smooth page scroll
+    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+    $('html, body').animate({
+      scrollTop: $(hash).offset().top
+    }, 900, function(){
+   
+      // Add hash (#) to URL when done scrolling (default click behavior)
+      window.location.hash = hash;
+    });
+  });
+  
+  // Slide in elements on scroll
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
+
 </body>
 {% endblock %}
 
