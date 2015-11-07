@@ -69,7 +69,8 @@ def register():
 @app.route('/logout')
 def logout():
     # close session and redirect to index
-    session.pop('email', None)
+    session.pop('username', None)
+    session.pop('admin', None)
     return redirect(url_for('index'))
 
 @app.route('/admin', methods=['GET', 'POST'])
@@ -80,6 +81,7 @@ def admin():
         password = request.form['password']
         if(email=='admin' and password == 'admin'):
             session['admin'] = True
+        return redirect(url_for('admin'))
     else:
         if 'admin' in session:
             #logged in as admin
