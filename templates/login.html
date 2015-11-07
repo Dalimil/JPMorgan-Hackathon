@@ -9,14 +9,10 @@
 {% endblock %}
 
 {% block content %}
-<body class="container">
-	<h1>User login</h1>
-	<p>Login here... form:</p>
-	<form>
-
-
-	</form>
-</body>
+  <h1>Sign In</h1>
+  <form action="/check_login" method="post" name="login">
+  	<label for = "username"> Username </label><input id = "username" type = "text" />
+  	<label for = "password"> Password </label><input id = "password" type = "password" />
+  	<p><input type="submit" value="Sign In"></p>
+  </form>
 {% endblock %}
-
-    

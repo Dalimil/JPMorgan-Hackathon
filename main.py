@@ -5,6 +5,7 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
+
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wigdnybtvbxjyl:VI5y4w1SgdVdoEDUyCFBmKyqVH@ec2-46-137-72-123.eu-west-1.compute.amazonaws.com:5432/dd5fh71aujkvoq"
 db = SQLAlchemy(app)
 
@@ -84,6 +85,10 @@ def admin():
 @app.route('/report')
 def report():
     return render_template('report.html')
+
+@app.route('/check_login')
+def check_login():
+    return "A"
 
 if __name__ == '__main__':
     app.run(port=8080, debug=True) 
