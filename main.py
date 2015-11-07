@@ -7,8 +7,12 @@ from models import db
 from models import User
 import requests
 import json
+from create_map import create_map
+from flask.ext.googlemaps import Map
+from flask.ext.googlemaps import GoogleMaps
 
 app = Flask(__name__)
+GoogleMaps(app)
 
 app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
 
@@ -20,17 +24,19 @@ app.register_blueprint(api)
 def index():
     email = None
     all_projects = None
+    all_projects_map = None
     my_projects = None
     if 'email' in session:
         #loggedIn
         email = session['email']
         my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
         all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+        all_projects_map = create_map("", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"]+"</p>" for i in all_projects])
         print(my_projects)
         print(all_projects)
         print('Logged in as {}'.format(email))
 
-    return render_template('index.html', email=email, all_projects=all_projects, my_projects=my_projects)
+    return render_template('index.html', email=email, all_projects=all_projects, all_projects_map=all_projects_map, my_projects=my_projects)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -96,7 +102,6 @@ def admin():
             all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
-
 
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():

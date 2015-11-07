@@ -1,3 +1,5 @@
+from flask.ext.googlemaps import Map
+
 def create_map(style, markers, info_boxes):
     mymap = Map(
         identifier="view-side",
