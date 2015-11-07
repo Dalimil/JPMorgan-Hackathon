@@ -41,20 +41,28 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     #handle new user registration here
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['user']
+        password = request.form['password']
+        r = requests.post(url="http://localhost:8080/create_user",
+            data=json.dumps({
+                "first_name":first_name,
+                "last_name":last_name,
+                "email":email, 
+                "password":password}))
+        auth = json.loads(r)["result"]
+        if(auth):
+            session['email'] = email
+            return redirect(url_for('index'))
+        else:
+            print "Registration error"
+    return render_template('register.html')
 
-    # get form data
-    # name = request.form['name']
-    # ...
-
-    #save database
-
-    # log them in
-    #session['email'] = email
-
-    # redirect
     return redirect(url_for('index'))
 
 @app.route('/logout')
@@ -92,8 +100,8 @@ def volunteer():
             interests = request.form['interests']
              
         return render_template('volunteer.html');
-		
-    else: 
+ 
+    else:
         return redirect(url_for('admin'))
 
 

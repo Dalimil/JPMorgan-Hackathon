@@ -12,3 +12,14 @@ def authenticate():
 		return json.dumps({"result":True})
 	else:
 		return json.dumps({"result":False})
+
+@api.route("/create_user", methods=['POST'])
+def create_user():
+	user_json = json.loads(request.data)
+	user = User(user_json.first_name, user_json.last_name, user_json.email, user_json.password)
+	db.session.add(user)
+	q = db.session.commit()
+	if q:
+		return json.dumps({"result":True})
+	else:
+		return json.dumps({"result":False})
