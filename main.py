@@ -6,6 +6,7 @@ from api import api
 from models import db
 from models import User
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -41,21 +42,27 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     #handle new user registration here
-
-    # get form data
-    # name = request.form['name']
-    # ...
-
-    #save database
-
-    # log them in
-    #session['email'] = email
-
-    # redirect
-    return redirect(url_for('index'))
+    if request.method == 'POST':
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        password = request.form['password']
+        r = requests.post(url="http://localhost:8080/create_user",
+            data=json.dumps({
+                "first_name":first_name,
+                "last_name":last_name,
+                "email":email, 
+                "password":password}))
+        auth = json.loads(r)["result"]
+        if(auth):
+            session['email'] = email
+            return redirect(url_for('index'))
+        else:
+            print "Error during registration"
+    return render_template('register.html')
 
 @app.route('/logout')
 def logout():
@@ -80,6 +87,22 @@ def admin():
 
 
     return render_template('admin.html', loggedIn=loggedIn)
+
+@app.route('/admin/volunteer', methods=['GET', 'POST'])
+def volunteer():
+    if 'admin' in session:
+        if request.method == 'POST':
+            firstname = request.form['firstname']
+            lastname = request.form['lastname']
+            email = request.form['email']
+            postcode = request.form['postcode']
+            interests = request.form['interests']
+             
+        return render_template('volunteer.html');
+ 
+    else:
+        return redirect(url_for('admin'))
+
 
 @app.route('/report')
 def report():

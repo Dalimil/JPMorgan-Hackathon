@@ -4,7 +4,12 @@
 {% block head %}
   {{ super() }}
   <style type="text/css">
-   /* extend here */
+   <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+.row:not(:last-child) {
+    border-right: 1px solid #ccc;
+}
   </style>
 {% endblock %}
 
@@ -26,12 +31,19 @@
 
 {% else %}
 
-<div class="navbar">
-<ul> 
-	<li><a href="">Volunteers</a></li>
-	<li><a href="">Events</a></li>
-	<li><a href="">Stats</a></li>
-</ul>
+<div class="container-fluid">
+<div class="row">
+
+    <div class="col-md-4">
+        <h3>Volunteers</h3>
+    </div>
+    <div class="col-md-4">
+        <h3>Events</h3>
+    </div>
+    <div class="col-md-4">
+    <h3>Stats</h3>
+    </div>
+</div>
 </div>
 
 
