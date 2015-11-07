@@ -69,7 +69,7 @@ def register():
 @app.route('/logout')
 def logout():
     # close session and redirect to index
-    session.pop('username', None)
+    session.pop('email', None)
     session.pop('admin', None)
     return redirect(url_for('index'))
 
