@@ -15,3 +15,6 @@ class User(db.Model):
         self.email = email
         self.password = password
 
+    def __str__(self):
+        return "{0} {1} {2} {3}".format(self.first_name, self.last_name, self.email, self.password)
+

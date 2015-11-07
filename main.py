@@ -4,6 +4,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import os
 from api import api
 from models import db
+from models import User
 
 app = Flask(__name__)
 
@@ -65,9 +66,9 @@ def logout():
 def admin():
     loggedIn = False
     if request.method == 'POST':
-        email = request.form['email']
+        username = request.form['username']
         password = request.form['password']
-        if(email=='admin' and password == 'admin'):
+        if(username=='admin' and password == 'admin'):
             session['admin'] = True
         return redirect(url_for('admin'))
     else:
