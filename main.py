@@ -26,42 +26,40 @@ def index():
 
     return render_template('index.html', email=email)
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST'])
 def login():
-    if request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        # check credentials against database here
-        r = requests.post(url="http://localhost:8080/authenticate",data=json.dumps({"email":email, "password":password}))
-        
-        auth = json.loads(r.text)["result"]
+    email = request.form['email']
+    password = request.form['password']
+    # check credentials against database here
+    r = requests.post(url="http://localhost:8080/authenticate",data=json.dumps({"email":email, "password":password}))
+    
+    auth = json.loads(r.text)["result"]
 
-        if(auth):
-            session['email'] = email
-        else:
-            print "Bad login"
+    if(auth):
+        session['email'] = email
+    else:
+        print "Bad login"
     
     return redirect(url_for("index"))
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
     #handle new user registration here
-    if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        email = request.form['email']
-        password = request.form['password']
-        r = requests.post(url="http://localhost:8080/create_user",
-            data=json.dumps({
-                "first_name":first_name,
-                "last_name":last_name,
-                "email":email, 
-                "password":password}))
-        auth = json.loads(r.text)["result"]
-        if(auth):
-            session['email'] = email
-        else:
-            print "Error during registration"
+    first_name = request.form['first_name']
+    last_name = request.form['last_name']
+    email = request.form['email']
+    password = request.form['password']
+    r = requests.post(url="http://localhost:8080/create_user",
+        data=json.dumps({
+            "first_name":first_name,
+            "last_name":last_name,
+            "email":email, 
+            "password":password}))
+    auth = json.loads(r.text)["result"]
+    if(auth):
+        session['email'] = email
+    else:
+        print "Error during registration"
     return redirect(url_for("index"))
 
 @app.route('/logout')
