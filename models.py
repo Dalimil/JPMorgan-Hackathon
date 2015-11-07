@@ -37,11 +37,22 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
     description = db.Column(db.Text)
-    image = db.Column(db.Text)
+    image = db.Column(db.Text, nullable=False, default='')
     address = db.Column(db.String(120))
     num_people = db.Column(db.Integer)
 
     users = db.relationship("User",secondary=user_identifier)
+
+    def __init__(self, name, description, address, num_people, image=None):
+        self.name = name
+        self.description = description
+        self.address = address
+        self.num_people = num_people
+        if image:
+            self.image = image
+
+    def __str__(self):
+        return "{0} {1} {2} {3}".format(self.name, self.description, self.address, self.num_people, self.image) 
 
 class Interest(db.Model):
     __tablename__ = "interests"

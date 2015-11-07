@@ -29,3 +29,8 @@ python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 ```
+
+### Domain:
+```sh
+https://5812d998.ngrok.com
+```
