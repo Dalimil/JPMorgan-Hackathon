@@ -7,6 +7,7 @@ from models import db
 from models import User
 import requests
 import json
+from create_map import create_map
 
 app = Flask(__name__)
 
@@ -26,6 +27,7 @@ def index():
         email = session['email']
         my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
         all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+        all_projects_map = create_map("", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"]+"</p>" for i in all_projects])
         print(my_projects)
         print(all_projects)
         print('Logged in as {}'.format(email))
