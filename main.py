@@ -52,8 +52,9 @@ def admin():
 	loggedIn = False
 	if request.method == 'POST':
 		username = request.form['username']
-		passw = request.form['password']
-		if(username=='admin' && 
+		password = request.form['password']
+		if(username=='admin' && password == 'admin'):
+			session['admin'] = True
 	else:
 		if 'admin' in session:
 			#logged in as admin
