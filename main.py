@@ -13,10 +13,10 @@ def index():
 def login():
     return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['POST'])
 	#handle new user registration here
-	# maybe doesn't have to be a separate .html file
-	return "ok"
+	
+	return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
