@@ -1,0 +1,21 @@
+from flask import Flask
+from flask import render_template, request, redirect, session, url_for, escape, make_response, flash, abort
+
+app = Flask(__name__)
+app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
+
+
+@app.route('/')
+def index():
+    return "hello world"
+
+@app.route('/login')
+def login():
+    return "login"
+
+@app.route('/logout')
+def logout():
+    return "logout"
+
+if __name__ == '__main__':
+    app.run(port=8080, debug=True) 
