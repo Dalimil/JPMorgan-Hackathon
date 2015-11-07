@@ -33,7 +33,9 @@ def login():
         password = request.form['password']
         # check credentials against database here
         r = requests.post(url="http://localhost:8080/authenticate",data=json.dumps({"email":email, "password":password}))
-        auth = json.loads(r)["result"]
+        
+        auth = json.loads(r.text)["result"]
+
         if(auth):
             session['email'] = email
         else:
