@@ -19,16 +19,16 @@ app.register_blueprint(api)
 @app.route('/')
 def index():
     email = None
-    all_project = None
-    my_project = None
+    all_projects = None
+    my_projects = None
     if 'email' in session:
         #loggedIn
         email = session['email']
-        my_project = json.loads(requests.post(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
-        all_project = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
+        my_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
+        all_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
         print('Logged in as {}'.format(email))
 
-    return render_template('index.html', email=email, all_project=all_project, my_project=my_project)
+    return render_template('index.html', email=email, all_projects=all_projects, my_projects=my_projects)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -80,6 +80,7 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
+    all_projects = False
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -90,9 +91,9 @@ def admin():
         if 'admin' in session:
             #logged in as admin
             loggedIn = True
+            all_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
 
-
-    return render_template('admin.html', loggedIn=loggedIn)
+    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
