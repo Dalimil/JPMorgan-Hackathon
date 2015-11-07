@@ -8,26 +8,39 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 
   </style>
+
 {% endblock %}
 
 {% block content %}
-<body>
-
-<div class="">
+<body content="container">
+<h1>Volunteers</h1>
+<div class="container-fluid">
 <div class="row">
 	<div class="col-md-4">
-	
-	</div>
-	<div class="col-md-4">
-	
+	<h2>Add User</h2>
+	<form handle="" method="POST">
+		<input type="text" name="firstname" value="Enter first name">
+		<br>
+		<input type="text" name="lastname" value="Enter last name">
+		<br>	
+		<input type="text" name="email" value="Enter email address">
+		<br>
+		<input type="text" name="postcode" value="Enter postcode"> 	
+		<input type="submit">	
+	</form>
 	</div>
 	<div class="col-md-4">
 		<button type="button" class="btn btn-default btn-lg">
-  <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-</button>	
+  	<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</button>
+	</div>
+	<div class="col-md-4">
+	dgdfg
 	</div>
 </div>
 </div>
+
+
+
 
 
 </body>
