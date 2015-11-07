@@ -100,8 +100,7 @@ def volunteer():
             interests = request.form['interests']
              
         return render_template('volunteer.html');
-		
-    else 
+    else:
         return redirect(url_for('admin'))
 
 
