@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from models import User
+from models import User, db
 import json
 
 api = Blueprint('api', __name__, template_folder='templates')
@@ -21,8 +21,6 @@ def create_user():
 	user = json.loads(request.data)
 	user = User(user["first_name"], user["last_name"], user["email"], user["password"])
 	db.session.add(user)
-	q = db.session.commit()
-	if q:
-		return json.dumps({"result":True})
-	else:
-		return json.dumps({"result":False})
+	db.session.commit()
+	
+	return json.dumps({"result":True})
