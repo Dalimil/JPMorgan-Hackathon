@@ -7,16 +7,11 @@ from models import db
 
 app = Flask(__name__)
 
-
-
 app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wigdnybtvbxjyl:VI5y4w1SgdVdoEDUyCFBmKyqVH@ec2-46-137-72-123.eu-west-1.compute.amazonaws.com:5432/dd5fh71aujkvoq"
 db.init_app(app)
 app.register_blueprint(api)
-
-    def __str__(self):
-        return "{0} {1} {2} {3}".format(self.first_name, self.last_name, self.email, self.password)
 
 @app.route('/')
 def index():
