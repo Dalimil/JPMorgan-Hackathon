@@ -9,6 +9,6 @@ def authenticate():
 	user = json.loads(request.data)
 	q = User.query.filter_by(email=user["email"], password=user["password"]).first()
 	if q:
-		return json.dumps({"Result":True})
+		return json.dumps({"result":True})
 	else:
-		return json.dumps({"Result":False})
+		return json.dumps({"result":False})

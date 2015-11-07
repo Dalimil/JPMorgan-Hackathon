@@ -5,6 +5,7 @@ import os
 from api import api
 from models import db
 from models import User
+import requests
 
 app = Flask(__name__)
 
@@ -30,8 +31,9 @@ def login():
         email = request.form['email']
         password = request.form['password']
         # check credentials against database here
-        user = User.query.filter_by(email=email, password=password).first()
-        if(user):
+        r = requests.post(url="http://localhost:8080/authenticate",data=json.dumps({"email":email, "password":password}))
+        auth = json.loads(r)["result"]
+        if(auth):
             session['email'] = email
             return redirect(url_for('index'))
         else:
