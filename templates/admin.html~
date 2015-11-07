@@ -34,8 +34,6 @@
 </div>
 
 
-
-{% endif %}
 </body>
 
 {% endblock %}
