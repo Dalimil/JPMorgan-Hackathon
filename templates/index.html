@@ -3,6 +3,7 @@
 {% block title %}Urban Roots{% endblock %}
 {% block head %}
   {{ super() }}
+  {{ all_projects_map.js }}
   <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <style>
@@ -157,7 +158,7 @@
 		<h1 style="font-size:40px;">{{ email }}</h1>
 		</div>
 		<div class="col-sm-offset-2 col-sm-4">
-			<img width="50%"; src="{{ url_for('static', filename='img/logo.png') }}"> 
+			<img width="50%" src="{{ url_for('static', filename='img/logo.png') }}"> 
 		</div>
 
 	</div>
@@ -189,9 +190,7 @@
 <div id="all-projects" class="container-fluid text-center">
   <h2>ALL PROJECTS</h2>
   <h3>Find projects that might interest you.</h3>
-  <script>
-  {{ all_projects_map.js }}
-  </script>
+
   {{ all_projects_map.html }}
 
   <br><br>
