@@ -60,3 +60,8 @@ def projects(email=None):
 		proj_list = [row2dict(p) for p in Project.query.all()]
 	print proj_list
 	return json.dumps({"data":proj_list})
+
+@api.route("/issue", methods=["GET","POST"])
+def issue():
+	if request.method == "POST":
+		data = json.loads(request.data)
