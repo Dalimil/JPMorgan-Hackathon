@@ -136,14 +136,18 @@ def volunteer():
         password = request.form['password']
         address = request.form['address']
         phone = request.form['phone']
-    
+
         newVolunteer = User(firstname,lastname,email,password,address, phone)
         db.session.add(newVolunteer)
         db.session.commit()
          
+    if request.method == 'POST':
+        searchname = request.form['searchname']
+        searchDB = User.query.(last_name=searchname)
+
     users = User.query.all()
     #query = db.session.execute("SELECT * FROM User") 
-    return render_template('volunteer.html',users=users);
+    return render_template('volunteer.html',users=users,searchDB=searchDB);
  
 
 @app.route('/admin/projects',methods=['GET','POST'])
