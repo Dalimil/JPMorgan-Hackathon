@@ -31,7 +31,7 @@ def index():
         email = session['email']
         my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
         all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
-        all_projects_map = create_map("", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"]+"</p>" for i in all_projects])
+        all_projects_map = create_map("width:100%;height:400px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"]+"</p>" for i in all_projects])
         print(my_projects)
         print(all_projects)
         print('Logged in as {}'.format(email))
@@ -88,7 +88,8 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
-    all_projects = False
+    all_projects = None
+    all_users = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -100,6 +101,7 @@ def admin():
             #logged in as admin
             loggedIn = True
             all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+            all_users = json.loads(requests.get(url="https://5812d998.ngrok.com/users").text)["data"]
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
