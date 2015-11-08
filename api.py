@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from models import User, Project, db
 import json
+import requests
 
 api = Blueprint('api', __name__, template_folder='templates')
 
@@ -8,6 +9,9 @@ def row2dict(row):
     d = {}
     for column in row.__table__.columns:
         d[column.name] = str(getattr(row, column.name))
+
+    if row.__tablename__ == "projects":
+    	d["count"] = len(row.users)
 
     return d
 
@@ -33,7 +37,7 @@ def create_user():
 @api.route("/create_project", methods=['POST'])
 def create_project():
 	user = json.loads(request.data)
-	user = Project(user["name"], user["address"], user["description"], user["num_people"], user.get("image",None))
+	user = Project(user["name"], user["description"], user["address"], int(user["num_people"]), user.get("image",None))
 	db.session.add(user)
 	db.session.commit()
 	
@@ -58,7 +62,7 @@ def projects(email=None):
 		proj_list = [row2dict(p) for p in Project.query.filter(Project.users.any(email=email)).all()]
 	else:
 		proj_list = [row2dict(p) for p in Project.query.all()]
-	print proj_list
+	print len(proj_list)
 	return json.dumps({"data":proj_list})
 
 @api.route("/users")
@@ -75,3 +79,8 @@ def users(project_id=None):
 def issue():
 	if request.method == "POST":
 		data = json.loads(request.data)
+		fh = open("pics/imageToSave.png", "wb")
+		fh.write(data["image"].decode('base64'))
+		fh.close()
+
+		return json.dumps({"result":True})

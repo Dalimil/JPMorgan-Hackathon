@@ -22,16 +22,21 @@ class User(db.Model):
     lat = db.Column(db.Float)
     lng = db.Column(db.Float)
     phone = db.Column(db.String(20))
-    interests = db.relationship('Interest', backref='person',
-                                lazy='dynamic')
+    interests = db.Column(db.String(120), default='')
 
-    def __init__(self, first_name, last_name, email, password, address, phone):
+    def __init__(self, first_name, last_name, email, password, address, phone, interests=None):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
         self.password = password
         self.address = address
         self.phone = phone
+
+        if interests:
+            self.interests = interests
+
+        if "lasgow" not in address:
+            address += ", Glasgow"
 
         r = requests.get(url="http://maps.googleapis.com/maps/api/geocode/json?address=" + address)
         data=json.loads(r.text)
@@ -62,6 +67,9 @@ class Project(db.Model):
         self.address = address
         self.num_people = num_people
 
+        if "lasgow" not in address:
+            address += ", Glasgow"
+
         r = requests.get(url="http://maps.googleapis.com/maps/api/geocode/json?address=" + address)
         data=json.loads(r.text)
 
@@ -74,12 +82,3 @@ class Project(db.Model):
     def __str__(self):
         return "{0} {1} {2} {3}".format(self.name, self.description, self.address, self.num_people, self.image) 
 
-class Interest(db.Model):
-    __tablename__ = "interests"
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    def __init__(self,name):
-        self.name = name

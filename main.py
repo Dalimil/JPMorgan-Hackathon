@@ -4,7 +4,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 import os
 from api import api
 from models import db
-from models import User
+from models import User, Project
 import requests
 import json
 from create_map import create_map
@@ -143,18 +143,21 @@ def volunteer():
 def projects():
     if 'admin' in session:
         if request.method == 'POST':
-            projectname = request.form['projectname']
+            name = request.form['name']
             description = request.form['description']
-            
             address = request.form['address']
             num_people = request.form['num_people']
-        if (projectname == '' or description == '' or address == '' or num_people == ''):
-            print "Could not submit: empty field"
-	
-    return render_template('projects.html');
+            image = request.form.get("image",None)
+            if (name == '' or description == '' or address == '' or num_people == ''):
+                print "Could not submit: empty field"
+            else:
+            	p = Project(name, description, address, int(num_people), image)
+            	db.session.add(p)
+            	db.session.commit()
+
+    projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+    return render_template('projects.html',projects=projects);
                    
-
-
 
 @app.route('/report')
 def report():
