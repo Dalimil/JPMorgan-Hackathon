@@ -110,7 +110,7 @@ def remove_issue():
 def issues():
 	return json.dumps({"data":[row2dict(i) for i in Issue.query.all()]})
 
-@api.route("/project_image/<project_id>", methods=["GET"])
+@api.route("/project_image/<project_id>", methods=["GET"]) # we are not doing this
 def project_image(project_id):
 	return send_from_directory('project_pics', '{}.jpg'.format(project_id))
 
