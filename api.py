@@ -44,12 +44,24 @@ def create_project():
 	return json.dumps({"result":True})
 
 @api.route("/add_project", methods=['POST'])
-def add_projects():
+def add_project():
 	data = json.loads(request.data)
 	user = User.query.filter_by(email=data["email"]).first()
 
 	p = Project.query.filter_by(id=int(data["project_id"])).first()
 	p.users.append(user)
+
+	db.session.commit()
+
+	return json.dumps({"result":True})
+
+@api.route("/remove_project", methods=['POST'])
+def remove_project():
+	data = json.loads(request.data)
+	user = User.query.filter_by(email=data["email"]).first()
+
+	p = Project.query.filter_by(id=int(data["project_id"])).first()
+	p.users.remove(user)
 
 	db.session.commit()
 

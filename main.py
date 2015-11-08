@@ -105,11 +105,22 @@ def project_sign_up():
 
     return redirect(url_for('index'))
 
+@app.route('/project_leave', methods=['POST'])
+def project_leave():
+    r = requests.post(url=DOMAIN+"/remove_project", 
+        data=json.dumps({"email":request.form["email"], "project_id":request.form["project_id"]}))
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during project leave"
+
+    return redirect(url_for('index'))
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
     all_projects = None
     all_users = None
+    all_projects_map = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -123,10 +134,10 @@ def admin():
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
             all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects])
-            
-    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
+    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users)
 
+'''
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
     if request.method == 'POST':
@@ -168,7 +179,9 @@ def projects():
 
     projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
     return render_template('projects.html',projects=projects);
-        
+
+'''
+
 @app.route('/admin/email/<project_id>',methods=['GET','POST'])
 def email(project_id):
     if 'admin' in session:

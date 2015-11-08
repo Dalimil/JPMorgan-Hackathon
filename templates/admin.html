@@ -183,14 +183,23 @@
 <body>
 <div class="jumbotron text-center">
   <div class="row">
-    <div class="col-sm-offset-1 col-sm-5">
-    <h1 style="font-size:40px;">Admin</h1>
+    <div class="col-sm-offset-7 col-sm-4">
+    <div style="text-align: right;">
+        <img width="50%" src="{{ url_for('static', filename='img/logo.png') }}"> 
+      </div>
+      </div>
+      <div class="col-sm-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-offset-5 col-sm-2">
+    <h1 style="font-size:40px;">Admin</h1><br />
     </div>
-    <div class="col-sm-offset-2 col-sm-4">
-      <img width="50%" src="{{ url_for('static', filename='img/logo.png') }}"> 
-    </div>
-
-    <form method="POST" action="/login" class="form-horizontal">
+    
+    <div class="col-sm-2"></div>
+  </div>
+  <div class="row">
+  <div class="">
+    <form method="POST" action="/admin" class="form-horizontal">
     <div class="form-group">
       <div class="col-sm-offset-5 col-sm-2">
         <input type="text" class="form-control" name="username" placeholder="Enter username">
@@ -207,7 +216,7 @@
       </div>
     </div>
   </form>
-
+  </div>
   </div>
 </div>
 
@@ -227,9 +236,9 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#my-projects">MY PROJECTS</a></li>
-        <li><a href="#map">PROJECT MAP</a></li>
-        <li><a href="#all-projects">ALL PROJECTS</a></li>
+        <li><a href="#projects">PROJECTS</a></li>
+        <li><a href="#users">USERS</a></li>
+        <li><a href="#reports">REPORTS</a></li>
       </ul>
     </div>
   </div>
@@ -247,9 +256,9 @@
   </div>
 </div>
 
-<div id="map" class="container-fluid text-center">
-  <h2>PROJECT MAP</h2>
-  <h3>Find projects near you.</h3><br />
+<div id="projects" class="container-fluid text-center">
+  <h2>ALL PROJECTS</h2>
+  <h3>See all existing projects here.</h3><br />
   <div class="row">
   <div class="col-sm-1"></div>
   <div class="col-sm-10">
@@ -258,11 +267,6 @@
   </div>
   <div class="col-sm-1"></div>
   </div>
-</div>
-
-<div id="all-projects" class="container-fluid text-center">
-  <h2>ALL PROJECTS</h2>
-  <h3>See all existing projects here.</h3>
   <br><br>
   <div class="row slideanim">
     {% for item in all_projects %}
@@ -283,9 +287,9 @@
 </div>
    
 <!-- users -->
-<div>
+<div id="users" class="container-fluid text-center">
     <div class="container">
-    <h4>Create new project</h3>
+    <h4>Create a new project</h3>
       <form action="" method="POST" id="projectform">
         <h3>Name of Project:</h3>
         <input type="text" name="name">
@@ -300,36 +304,7 @@
         </div>
       </form>     
     </div>
-
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="sub-header">Section title</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Enrolled</th>
-                  <th>Max people</th>
-                  <th>Address</th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for project in projects %}
-                <tr>
-                  <td>{{project.name}}</td>
-                  <td>{{project.description}}</td>
-                  <td>{{project.count}}</td>
-                  <td>{{project.num_people}}</td>
-                  <td>{{project.address}}</td>
-                  <td><a href="/admin/email/{{project.id}}">Email group</a></td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-          </div>
-    </div>
-</body>
+</div>
 <!-- end users -->
 
 <footer class="container-fluid text-center">
