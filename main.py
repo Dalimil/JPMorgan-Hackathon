@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template, request, redirect, session, url_for, escape, make_response, flash, abort
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import Model,BaseQuery
 import os
 from api import api
 from models import db
@@ -105,19 +106,23 @@ def admin():
 
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
-    return render_template('volunteer.html')
-    if 'admin' in session:
-        if request.method == 'POST':
-            firstname = request.form['firstname']
-            lastname = request.form['lastname']
-            email = request.form['email']
-            postcode = request.form['postcode']
-            interests = request.form['interests']
-             
-        return render_template('volunteer.html');
+    if request.method == 'POST':
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+        password = request.form['password']
+        address = request.form['address']
+        phone = request.form['phone']
+    
+        newVolunteer = User(firstname,lastname,email,password,address, phone)
+        db.session.add(newVolunteer)
+        db.session.commit()
+         
+    users = User.query.all()
+    #query = db.session.execute("SELECT * FROM User") 
+    return render_template('volunteer.html',users=users);
  
-    else:
-        return redirect(url_for('admin'))
+
 
 
 @app.route('/admin/projects',methods=['GET','POST'])
