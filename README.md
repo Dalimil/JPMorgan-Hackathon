@@ -1,6 +1,6 @@
 # JPMorgan Chase - "Code for Good" Hackathon (Glasgow, 7-8th Nov 2015)
 
-**Target non-profit organization:** Urban Roots 
+**Target non-profit organization:** [Urban Roots](http://www.urbanroots.org.uk/)
 
 **Team:** [Dalimil Hajek](https://github.com/dalimil), [Miguel Jaques](https://github.com/seuqaj114), [Willy Dinata](https://github.com/whdinata), [Michael Ahari](https://github.com/MichaelAhari), [KamenB](https://github.com/KamenB)
 
@@ -34,3 +34,6 @@ python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 ```
+
+### Android app
+You can find all the Android project files in the /UrbanRoots folder
