@@ -277,6 +277,11 @@
             <p><strong>Address: </strong>{{ item.address }}, Glasgow UK</p>
             <p><strong>Available: </strong>{{ item.count }}/{{ item.num_people }} people</p>
             <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+          <div class="panel-footer plan" style="text-align:center">
+          <form action="/admin/email/{{ item.id }}" method="GET">
+              <button type="submit" class="btn btn-lg">Send email to participants</button>
+            </form>
         </div>
         </div>
         </div>
