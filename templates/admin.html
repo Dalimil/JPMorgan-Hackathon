@@ -369,7 +369,7 @@
   <div class="row">
 
     <div class="col-sm-offset-2 col-sm-5">
-    <h2>Register</h2>
+    <h2>Register a new user</h2>
       <form action="/register?ref=admin" method="POST" class="form-group">
           <div class="row form-group">
           <div class="col-sm-6">
@@ -433,15 +433,16 @@
         <div class="col-sm-4">
         <div class="panel panel-default text-center" style="text-align:justify">
           <div class="panel-heading" style="text-align:center">
-            <h1 style="font-size: 30px;">{{ item.kind }}</h1>
+            <h1 style="font-size: 30px;">{{ item.data.kind }}</h1>
           </div>
           <div class="panel-body">
-            <p><strong>Date: </strong>{{ item.date }}</p>
-            <p><strong>Image: </strong>{{ item.image }}</p>
-            <p><strong>Description: </strong>{{ item.description }}</p>
+            <p><strong>Date: </strong>{{ item.data.date }}</p>
+            <p><strong>Image: </strong>{{ item.img }}</p>
+            <p><strong>Location: </strong>({{ item.data.lat }}, {{ item.data.lng }})</p>
+            <p><strong>Description: </strong>{{ item.data.description }}</p>
           </div>
           <div class="panel-footer plan" style="text-align:center">
-          <form action="/remove_issue" method="POST">
+          <form action="/resolve_issue" method="POST">
               <input type="hidden" name="issue_id" value="{{ item.id }}">
               <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Resolve</button>
             </form>
