@@ -145,7 +145,7 @@ def volunteer():
     users = User.query.all()
     #query = db.session.execute("SELECT * FROM User") 
     return render_template('volunteer.html',users=users);
- '''
+ 
 
 @app.route('/admin/projects',methods=['GET','POST'])
 def projects():
@@ -165,7 +165,9 @@ def projects():
 
     projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
     return render_template('projects.html',projects=projects);
-        
+
+'''
+
 @app.route('/admin/email/<project_id>',methods=['GET','POST'])
 def email(project_id):
     if 'admin' in session:
