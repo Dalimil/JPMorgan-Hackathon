@@ -37,8 +37,8 @@ def index():
         names_my_p = [i["name"] for i in my_projects]
         greens = [(i["lat"], i["lng"]) for i in all_projects if i["name"] in names_my_p]
         reds = [(i["lat"], i["lng"]) for i in all_projects if i["name"] not in names_my_p]
-        infoboxReds = ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] not in names_my_p]
-        infoboxGreens = ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] in names_my_p]
+        infoboxReds = ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] not in names_my_p]
+        infoboxGreens = ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] in names_my_p]
         
         all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", {"http://maps.google.com/mapfiles/ms/icons/green-dot.png":greens, "http://maps.google.com/mapfiles/ms/icons/red-dot.png":reds}, infoboxGreens+infoboxReds)
         all_projects = [i for i in all_projects if i["name"] not in names_my_p]
@@ -121,6 +121,7 @@ def admin():
     all_projects = None
     all_users = None
     all_projects_map = None
+    all_users_map = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -133,9 +134,11 @@ def admin():
             loggedIn = True
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
-            all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects])
+            style="width:100%;height:400px;border: 1px solid black; border-radius: 15px;"
+            all_projects_map = create_map(style, [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects])
+            all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+i["last_name"].upper()+"</strong></p>" for i in all_users])
 
-    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users)
+    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users, all_users_map=all_users_map)
 
 '''
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
