@@ -42,8 +42,6 @@ def index():
         
         all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", {"http://maps.google.com/mapfiles/ms/icons/green-dot.png":greens, "http://maps.google.com/mapfiles/ms/icons/red-dot.png":reds}, infoboxGreens+infoboxReds, "projects01")
         all_projects = [i for i in all_projects if i["name"] not in names_my_p]
-        print(my_projects)
-        print(all_projects)
         print('Logged in as {}'.format(email))
 
     return render_template('index.html', email=email, all_projects=all_projects, all_projects_map=all_projects_map, my_projects=my_projects)
@@ -153,6 +151,7 @@ def admin():
     all_projects_map = None
     all_users_map = None
     all_issues = None
+    all_issues_img = None
     all_issues_map = None
     if request.method == 'POST':
         username = request.form['username']
@@ -167,10 +166,13 @@ def admin():
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
             all_issues = json.loads(requests.get(url=DOMAIN+"/issues").text)["data"]
+            all_issues_img = [requests.get(url=DOMAIN+"/issue_image/"+i["id"]) for i in all_issues]
             style="width:100%;height:400px;border: 1px solid black; border-radius: 15px;"
             all_projects_map = create_map(style, [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects], "projects01")
             all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "users01")
             all_issues_map = create_map(style, [(i["lat"], i["lng"]) for i in all_issues], ["<p><strong>"+i["kind"].upper()+"</strong></p>" for i in all_issues], "issues01")
+            tmp = [{"img":all_issues_img[i],"data":all_issues[i]} for i in range(len(all_issues))]
+            all_issues = tmp
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users, all_users_map=all_users_map, all_issues=all_issues, all_issues_map=all_issues_map)
 
