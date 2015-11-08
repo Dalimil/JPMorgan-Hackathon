@@ -3,193 +3,358 @@
 {% block title %}Admin Dashboard{% endblock %}
 {% block head %}
   {{ super() }}
-  <style type="text/css">
-   <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+  <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+  <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  <style>
+  body {
+      font: 400 15px Lato, sans-serif;
+      line-height: 1.8;
+      color: #818181;
+  }
+  h2 {
+      font-size: 24px;
+      text-transform: uppercase;
+      color: #303030;
+      font-weight: 600;
+      margin-bottom: 30px;
+  }
+  h4 {
+      font-size: 19px;
+      line-height: 1.375em;
+      color: #303030;
+      font-weight: 400;
+      margin-bottom: 30px;
+  }  
+  .jumbotron {
+      background-color: #00833a;
+      color: #fff;
+      padding: 100px 25px 50px;
+      font-family: Montserrat, sans-serif;
+  }
+  .container-fluid {
+      padding: 60px 50px;
+  }
+  .bg-grey {
+      background-color: #f6f6f6;
+  }
+  .logo-small {
+      color: #00833a;
+      font-size: 50px;
+  }
+  .logo {
+      color: #00833a;
+      font-size: 220px;
+  }
+  .thumbnail {
+      padding: 0 0 15px 0;
+      border: none;
+      border-radius: 0;
+  }
+  .thumbnail img {
+      width: 100%;
+      height: 100%;
+      margin-bottom: 10px;
+  }
+  .panel {
+      border: 1px solid #0CAB93;
+      border-radius:0;
+      transition: box-shadow 0.5s;
+  }
 
-.row:not(:last-child) {
-    border-right: 1px solid #ccc;
-}
+  .panel:hover {
+      box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+
+  .panel-footer .btn:hover {
+      border: 1px solid #D9534F;
+      background-color: #fff !important;
+      color: #D9534F;
+  }
+
+  .panel-heading {
+      color: #fff !important;
+      background-color: #0CAB93 !important;
+      padding: 5px;
+      border-bottom: 1px solid transparent;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 0px;
+  }
+
+  .panel-footer {
+      background-color: #fff !important;
+  }
+
+  .panel-footer h3 {
+      font-size: 32px;
+  }
+
+  .panel-footer h4 {
+      color: #aaa;
+      font-size: 14px;
+  }
+
+  .panel-footer .btn {
+      margin: 15px 0;
+      background-color: #D9534F;
+      color: #fff;
+  }
+
+  .navbar {
+      margin-bottom: 0;
+      background-color: #00833a;
+      z-index: 9999;
+      border: 0;
+      font-size: 12px !important;
+      line-height: 1.42857143 !important;
+      letter-spacing: 4px;
+      border-radius: 0;
+      font-family: Montserrat, sans-serif;
+  }
+  .navbar li a, .navbar .navbar-brand {
+      color: #fff !important;
+  }
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+      color: #00833a !important;
+      background-color: #fff !important;
+  }
+  .navbar-default .navbar-toggle {
+      border-color: transparent;
+      color: #fff !important;
+  }
+  footer .glyphicon {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #00833a;
+  }
+  .slideanim {visibility:hidden;}
+  .slide {
+      animation-name: slide;
+      -webkit-animation-name: slide;  
+      animation-duration: 1s; 
+      -webkit-animation-duration: 1s;
+      visibility: visible;      
+  }
+  @keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    } 
+  }
+  @-webkit-keyframes slide {
+    0% {
+      opacity: 0;
+      -webkit-transform: translateY(70%);
+    } 
+    100% {
+      opacity: 1;
+      -webkit-transform: translateY(0%);
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .col-sm-4 {
+      text-align: center;
+      margin: 25px 0;
+    }
+    .btn-lg {
+        width: 100%;
+        margin-bottom: 35px;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .logo {
+        font-size: 150px;
+    }
+  }
+
   </style>
 {% endblock %}
 
 {% block content %}
-<body class="container">
+
 
 
 {% if loggedIn == False %}
-
-<form action="" method="POST">
-	<h2>Username:</h2>
-	<input type="text" name="username" value="">
-	<h2>Password:</h2>
-	<input type="password" name="password" value="">
-	<br><br>
-	<button class="btn btn-primary" type="submit">Login</button>
-</form>
+<body>
+<div class="jumbotron text-center">
+  <div class="row">
+    <div class="col-sm-offset-7 col-sm-4">
+    <div style="text-align: right;">
+        <img width="50%" src="{{ url_for('static', filename='img/logo.png') }}"> 
+      </div>
+      </div>
+      <div class="col-sm-1"></div>
+  </div>
+  <div class="row">
+    <div class="col-sm-offset-5 col-sm-2">
+    <h1 style="font-size:40px;">Admin</h1><br />
+    </div>
+    
+    <div class="col-sm-2"></div>
+  </div>
+  <div class="row">
+  <div class="">
+    <form method="POST" action="/admin" class="form-horizontal">
+    <div class="form-group">
+      <div class="col-sm-offset-5 col-sm-2">
+        <input type="text" class="form-control" name="username" placeholder="Enter username">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-5 col-sm-2">          
+        <input type="password" class="form-control" name="password" placeholder="Enter password">
+      </div>
+    </div>
+    <div class="form-group">        
+      <div class="col-sm-offset-5 col-sm-2">
+        <button type="submit" class="btn btn-danger btn-lg">Login</button>
+      </div>
+    </div>
+  </form>
+  </div>
+  </div>
+</div>
 
 {% else %}
 
+<body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="admin">Admin Dashboard</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/admin/volunteer">Volunteers</a></li>
-            <li><a href="/admin/projects">Projects</a></li>
-            <li><a href="/admin/stats">Statistics</a></li>
-            
-          </ul>
-        </div>
-      </div>
-    </nav>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" onclick="window.location.href = '/logout';return false;" href="">LOGOUT</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#projects">PROJECTS</a></li>
+        <li><a href="#users">USERS</a></li>
+        <li><a href="#reports">REPORTS</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="sub-header">Section title</h2>
-          <div class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                  <th>Header</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1,001</td>
-                  <td>Lorem</td>
-                  <td>ipsum</td>
-                  <td>dolor</td>
-                  <td>sit</td>
-                </tr>
-                <tr>
-                  <td>1,002</td>
-                  <td>amet</td>
-                  <td>consectetur</td>
-                  <td>adipiscing</td>
-                  <td>elit</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>Integer</td>
-                  <td>nec</td>
-                  <td>odio</td>
-                  <td>Praesent</td>
-                </tr>
-                <tr>
-                  <td>1,003</td>
-                  <td>libero</td>
-                  <td>Sed</td>
-                  <td>cursus</td>
-                  <td>ante</td>
-                </tr>
-                <tr>
-                  <td>1,004</td>
-                  <td>dapibus</td>
-                  <td>diam</td>
-                  <td>Sed</td>
-                  <td>nisi</td>
-                </tr>
-                <tr>
-                  <td>1,005</td>
-                  <td>Nulla</td>
-                  <td>quis</td>
-                  <td>sem</td>
-                  <td>at</td>
-                </tr>
-                <tr>
-                  <td>1,006</td>
-                  <td>nibh</td>
-                  <td>elementum</td>
-                  <td>imperdiet</td>
-                  <td>Duis</td>
-                </tr>
-                <tr>
-                  <td>1,007</td>
-                  <td>sagittis</td>
-                  <td>ipsum</td>
-                  <td>Praesent</td>
-                  <td>mauris</td>
-                </tr>
-                <tr>
-                  <td>1,008</td>
-                  <td>Fusce</td>
-                  <td>nec</td>
-                  <td>tellus</td>
-                  <td>sed</td>
-                </tr>
-                <tr>
-                  <td>1,009</td>
-                  <td>augue</td>
-                  <td>semper</td>
-                  <td>porta</td>
-                  <td>Mauris</td>
-                </tr>
-                <tr>
-                  <td>1,010</td>
-                  <td>massa</td>
-                  <td>Vestibulum</td>
-                  <td>lacinia</td>
-                  <td>arcu</td>
-                </tr>
-                <tr>
-                  <td>1,011</td>
-                  <td>eget</td>
-                  <td>nulla</td>
-                  <td>Class</td>
-                  <td>aptent</td>
-                </tr>
-                <tr>
-                  <td>1,012</td>
-                  <td>taciti</td>
-                  <td>sociosqu</td>
-                  <td>ad</td>
-                  <td>litora</td>
-                </tr>
-                <tr>
-                  <td>1,013</td>
-                  <td>torquent</td>
-                  <td>per</td>
-                  <td>conubia</td>
-                  <td>nostra</td>
-                </tr>
-                <tr>
-                  <td>1,014</td>
-                  <td>per</td>
-                  <td>inceptos</td>
-                  <td>himenaeos</td>
-                  <td>Curabitur</td>
-                </tr>
-                <tr>
-                  <td>1,015</td>
-                  <td>sodales</td>
-                  <td>ligula</td>
-                  <td>in</td>
-                  <td>libero</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+<div class="jumbotron text-center">
+  <div class="row">
+    <div class="col-sm-offset-1 col-sm-5">
+    <h1 style="font-size:40px;">Admin</h1>
+    </div>
+    <div class="col-sm-offset-2 col-sm-4">
+      <img width="50%" src="{{ url_for('static', filename='img/logo.png') }}"> 
     </div>
 
+  </div>
+</div>
+
+<div id="projects" class="container-fluid text-center">
+  <h2>ALL PROJECTS</h2>
+  <h3>See all existing projects here.</h3><br />
+  <div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+  {{ all_projects_map.js }}
+  {{ all_projects_map.html }}
+  </div>
+  <div class="col-sm-1"></div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    {% for item in all_projects %}
+        <div class="col-sm-4">
+        <div class="panel panel-default text-center" style="text-align:justify">
+          <div class="panel-heading" style="text-align:center">
+            <h1 style="font-size: 30px;">{{ item.name }}</h1>
+          </div>
+          <div class="panel-body">
+            <p><strong>Address: </strong>{{ item.address }}, Glasgow UK</p>
+            <p><strong>Available: </strong>{{ item.count }}/{{ item.num_people }} people</p>
+            <p><strong>Description: </strong>{{ item.description }}</p>
+        </div>
+        </div>
+        </div>
+    {% endfor %}
+  </div>
+</div>
+   
+<!-- users -->
+<div id="users" class="container-fluid text-center">
+    <div class="container">
+    <h4>Create a new project</h3>
+      <form action="" method="POST" id="projectform">
+        <h3>Name of Project:</h3>
+        <input type="text" name="name">
+        <h3>Address</h3>
+        <input type="text" name="address">
+        <h3>Number of people</h3>   
+        <input type="text" name="num_people"> 
+        <h3>Description:</h3>
+        <input cols="40" rows="5" name="description" type="textarea"></input>
+        <div class="container">
+        <button type="submit" class="btn btn-success btn-lg">Create</button>
+        </div>
+      </form>     
+    </div>
+</div>
+<!-- end users -->
+
+<footer class="container-fluid text-center">
+  <a href="#myPage" title="To Top">
+    <span class="glyphicon glyphicon-chevron-up"></span>
+  </a>
+  <p>Back to top</p>    
+</footer>
+
+
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links in navbar + footer link
+  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
+
+    // Prevent default anchor click behavior
+    event.preventDefault();
+
+    // Store hash
+    var hash = this.hash;
+
+    // Using jQuery's animate() method to add smooth page scroll
+    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
+    $('html, body').animate({
+      scrollTop: $(hash).offset().top
+    }, 900, function(){
+   
+      // Add hash (#) to URL when done scrolling (default click behavior)
+      window.location.hash = hash;
+    });
+  });
+  
+  // Slide in elements on scroll
+  $(window).scroll(function() {
+    $(".slideanim").each(function(){
+      var pos = $(this).offset().top;
+
+      var winTop = $(window).scrollTop();
+        if (pos < winTop + 600) {
+          $(this).addClass("slide");
+        }
+    });
+  });
+})
+</script>
 
 {% endif %}
+
 </body>
+
 
 {% endblock %}
 

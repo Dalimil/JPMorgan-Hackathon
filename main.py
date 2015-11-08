@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template, request, redirect, session, url_for, escape, make_response, flash, abort
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.sqlalchemy import Model,BaseQuery
 import os
 from api import api
 from models import db
@@ -36,8 +37,8 @@ def index():
         names_my_p = [i["name"] for i in my_projects]
         greens = [(i["lat"], i["lng"]) for i in all_projects if i["name"] in names_my_p]
         reds = [(i["lat"], i["lng"]) for i in all_projects if i["name"] not in names_my_p]
-        infoboxReds = ["<p>"+i["name"][:1].upper()+i["name"][1:]+"</p>" for i in all_projects if i["name"] not in names_my_p]
-        infoboxGreens = ["<p>"+i["name"][:1].upper()+i["name"][1:]+"</p>" for i in all_projects if i["name"] in names_my_p]
+        infoboxReds = ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] not in names_my_p]
+        infoboxGreens = ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] in names_my_p]
         
         all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", {"http://maps.google.com/mapfiles/ms/icons/green-dot.png":greens, "http://maps.google.com/mapfiles/ms/icons/red-dot.png":reds}, infoboxGreens+infoboxReds)
         all_projects = [i for i in all_projects if i["name"] not in names_my_p]
@@ -109,6 +110,7 @@ def admin():
     loggedIn = False
     all_projects = None
     all_users = None
+    all_projects_map = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -121,25 +123,29 @@ def admin():
             loggedIn = True
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
+            all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects])
 
-    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
+    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users)
 
+'''
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
-    return render_template('volunteer.html')
-    if 'admin' in session:
-        if request.method == 'POST':
-            firstname = request.form['firstname']
-            lastname = request.form['lastname']
-            email = request.form['email']
-            postcode = request.form['postcode']
-            interests = request.form['interests']
-             
-        return render_template('volunteer.html');
+    if request.method == 'POST':
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        email = request.form['email']
+        password = request.form['password']
+        address = request.form['address']
+        phone = request.form['phone']
+    
+        newVolunteer = User(firstname,lastname,email,password,address, phone)
+        db.session.add(newVolunteer)
+        db.session.commit()
+         
+    users = User.query.all()
+    #query = db.session.execute("SELECT * FROM User") 
+    return render_template('volunteer.html',users=users);
  
-    else:
-        return redirect(url_for('admin'))
-
 
 @app.route('/admin/projects',methods=['GET','POST'])
 def projects():
@@ -159,7 +165,9 @@ def projects():
 
     projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
     return render_template('projects.html',projects=projects);
-        
+
+'''
+
 @app.route('/admin/email/<project_id>',methods=['GET','POST'])
 def email(project_id):
     if 'admin' in session:
