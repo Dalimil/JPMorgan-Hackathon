@@ -37,7 +37,7 @@ def create_user():
 @api.route("/create_project", methods=['POST'])
 def create_project():
 	user = json.loads(request.data)
-	user = Project(user["name"], user["description"], user["address"], int(user["num_people"]), user.get("image",None))
+	user = Project(user["name"], user["description"], user["address"], int(user["num_people"]), user.get("image",None), user["date"])
 	db.session.add(user)
 	db.session.commit()
 	
