@@ -14,6 +14,7 @@ public class Project {
     private String lng;
     private String id;
     private String name;
+    private String date;
     private boolean isJoin = false;
 
     public Project(JSONObject object){
@@ -26,6 +27,7 @@ public class Project {
             this.lng = object.getString("lng");
             this.id = object.getString("id");
             this.name = object.getString("name");
+            this.date = object.getString("date");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -61,6 +63,10 @@ public class Project {
 
     public String getName() {
         return name;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public boolean isJoin() {
