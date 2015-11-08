@@ -105,6 +105,16 @@ def project_sign_up():
 
     return redirect(url_for('index'))
 
+@app.route('/project_leave', methods=['POST'])
+def project_leave():
+    r = requests.post(url=DOMAIN+"/remove_project", 
+        data=json.dumps({"email":request.form["email"], "project_id":request.form["project_id"]}))
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during project leave"
+
+    return redirect(url_for('index'))
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
@@ -137,14 +147,18 @@ def volunteer():
         password = request.form['password']
         address = request.form['address']
         phone = request.form['phone']
-    
+
         newVolunteer = User(firstname,lastname,email,password,address, phone)
         db.session.add(newVolunteer)
         db.session.commit()
          
+    if request.method == 'POST':
+        searchname = request.form['searchname']
+        searchDB = User.query.(last_name=searchname)
+
     users = User.query.all()
     #query = db.session.execute("SELECT * FROM User") 
-    return render_template('volunteer.html',users=users);
+    return render_template('volunteer.html',users=users,searchDB=searchDB);
  
 
 @app.route('/admin/projects',methods=['GET','POST'])
