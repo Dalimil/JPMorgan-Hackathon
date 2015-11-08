@@ -3,7 +3,6 @@
 {% block title %}Urban Roots{% endblock %}
 {% block head %}
   {{ super() }}
-  {{ all_projects_map.js }}
   <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <style>
@@ -56,6 +55,52 @@
       height: 100%;
       margin-bottom: 10px;
   }
+	.panel {
+	    border: 1px solid #0CAB93;
+	    border-radius:0;
+	    transition: box-shadow 0.5s;
+	}
+
+	.panel:hover {
+	    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+	}
+
+	.panel-footer .btn:hover {
+	    border: 1px solid #D9534F;
+	    background-color: #fff !important;
+	    color: #D9534F;
+	}
+
+	.panel-heading {
+	    color: #fff !important;
+	    background-color: #0CAB93 !important;
+	    padding: 5px;
+	    border-bottom: 1px solid transparent;
+	    border-top-left-radius: 0px;
+	    border-top-right-radius: 0px;
+	    border-bottom-left-radius: 0px;
+	    border-bottom-right-radius: 0px;
+	}
+
+	.panel-footer {
+	    background-color: #fff !important;
+	}
+
+	.panel-footer h3 {
+	    font-size: 32px;
+	}
+
+	.panel-footer h4 {
+	    color: #aaa;
+	    font-size: 14px;
+	}
+
+	.panel-footer .btn {
+	    margin: 15px 0;
+	    background-color: #D9534F;
+	    color: #fff;
+	}
+
   .navbar {
       margin-bottom: 0;
       background-color: #00833a;
@@ -126,6 +171,7 @@
         font-size: 150px;
     }
   }
+
   </style>
 {% endblock %}
 
@@ -141,11 +187,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-      <a class="navbar-brand" href="/logout">LOGOUT</a>
+      <a class="navbar-brand" onclick="window.location.href = '/logout';return false;" href="">LOGOUT</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#my-projects">MY PROJECTS</a></li>
+        <li><a href="#map">PROJECT MAP</a></li>
         <li><a href="#all-projects">ALL PROJECTS</a></li>
       </ul>
     </div>
@@ -169,113 +216,72 @@
   <h3>Here you can see all your projects.</h3>
   <br><br>
   <div class="row slideanim">
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-apple logo-small"></span>
-      <h4>GARDENING</h4>
-      <p>Want to learn how to grow your own fruit and veg? <br />Our weekly volunteer team is an ideal place to start,  growing together in our community gardens.</p>
-    </div>
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-tree-conifer logo-small"></span>
-      <h4>WOODLAND</h4>
-      <p>The conservation volunteers meet every Thursday on the site,  learning a range of conservation skills and working as a team.</p>
-    </div>
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-briefcase logo-small"></span>
-      <h4>WORKSHOPS</h4>
-      <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
-    </div>
+  	{% for item in my_projects %}
+        <div class="col-sm-4">
+	      <div class="panel panel-default text-center" style="text-align:justify">
+	        <div class="panel-heading" style="text-align:center">
+	          <h1 style="font-size: 30px;">{{ item.name }}</h1>
+	        </div>
+	        <div class="panel-body">
+	        	<p><strong>Address: </strong>{{ item.address }}, Glasgow UK</p>
+		        <p><strong>Available: </strong>{{ item.count }}/{{ item.num_people }} people</p>
+		        <p><strong>Description: </strong>{{ item.description }}</p>
+		    </div>
+		    <div class="panel-footer plan" style="text-align:center">
+		        <form action="" method="POST">
+			        <input type="hidden" name="project_id" value="{{ item.id }}">
+			        <input type="hidden" name="email" value="{{ email }}">
+			        <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>
+		        </form>
+	        </div>
+	      </div>
+        </div>
+    {% endfor %}
   </div>
-  <br><br>
 </div>
+
+<div id="map" class="container-fluid text-center">
+	<h2>PROJECT MAP</h2>
+	<h3>Find projects near you.</h3><br />
+	<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+	{{ all_projects_map.js }}
+	{{ all_projects_map.html }}
+	</div>
+	<div class="col-sm-1"></div>
+	</div>
+</div>
+
 <div id="all-projects" class="container-fluid text-center">
   <h2>ALL PROJECTS</h2>
   <h3>Find projects that might interest you.</h3>
-
-  {{ all_projects_map.html }}
-
   <br><br>
   <div class="row slideanim">
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-apple logo-small"></span>
-      <h4>GARDENING</h4>
-      <p>Want to learn how to grow your own fruit and veg? <br />Our weekly volunteer team is an ideal place to start,  growing together in our community gardens.</p>
-    </div>
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-tree-conifer logo-small"></span>
-      <h4>WOODLAND</h4>
-      <p>The conservation volunteers meet every Thursday on the site,  learning a range of conservation skills and working as a team.</p>
-    </div>
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-briefcase logo-small"></span>
-      <h4>WORKSHOPS</h4>
-      <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
-    </div>
-  </div>
-  <br><br>
-  <div class="row slideanim">
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-leaf logo-small"></span>
-      <h4>GREEN</h4>
-      <p>We want to get more people out of their cars and using low carbon forms of transport,  whether that’s trains and buses or (preferably) bikes! </p>
-    </div>
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-certificate logo-small"></span>
-      <h4>RENEWABLE</h4>
-      <p>Our Renewables System is available for hire! <br />This portable system incorporate solar and wind,  and is ideal for community events that need power for a PA system. </p>
-    </div>
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-wrench logo-small"></span>
-      <h4 style="color:#303030;">HARD WORK</h4>
-      <p>This covers a whole load of things from Creative Re-Use (upcycling),  to Herbal Medicine,  Foraging,  Living Willow Structures and Basket Making… </p>
-    </div>
+    {% for item in all_projects %}
+        <div class="col-sm-4">
+	      <div class="panel panel-default text-center" style="text-align:justify">
+	        <div class="panel-heading" style="text-align:center">
+	          <h1 style="font-size: 30px;">{{ item.name }}</h1>
+	        </div>
+	        <div class="panel-body">
+	        	<p><strong>Address: </strong>{{ item.address }}, Glasgow UK</p>
+		        <p><strong>Available: </strong>{{ item.count }}/{{ item.num_people }} people</p>
+		        <p><strong>Description: </strong>{{ item.description }}</p>
+		    </div>
+		    <div class="panel-footer plan" style="text-align:center">
+		        <form action="/project_sign_up" method="POST">
+			        <input type="hidden" name="project_id" value="{{ item.id }}">
+			        <input type="hidden" name="email" value="{{ email }}">
+			        <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-ok"></span>&nbsp;&nbsp;Join</button>
+		        </form>
+	        </div>
+	      </div>
+        </div>
+    {% endfor %}
   </div>
 </div>
 
-
-<footer class="container-fluid text-center">
-  <a href="#myPage" title="To Top">
-    <span class="glyphicon glyphicon-chevron-up"></span>
-  </a>
-  <p>Back to top</p>		
-</footer>
-
-<script>
-$(document).ready(function(){
-  // Add smooth scrolling to all links in navbar + footer link
-  $(".navbar a, footer a[href='#myPage']").on('click', function(event) {
-
-    // Prevent default anchor click behavior
-    event.preventDefault();
-
-    // Store hash
-    var hash = this.hash;
-
-    // Using jQuery's animate() method to add smooth page scroll
-    // The optional number (900) specifies the number of milliseconds it takes to scroll to the specified area
-    $('html, body').animate({
-      scrollTop: $(hash).offset().top
-    }, 900, function(){
-   
-      // Add hash (#) to URL when done scrolling (default click behavior)
-      window.location.hash = hash;
-    });
-  });
-  
-  // Slide in elements on scroll
-  $(window).scroll(function() {
-    $(".slideanim").each(function(){
-      var pos = $(this).offset().top;
-
-      var winTop = $(window).scrollTop();
-        if (pos < winTop + 600) {
-          $(this).addClass("slide");
-        }
-    });
-  });
-})
-</script>
-
-</body>
 
 {% else %}
 
@@ -461,6 +467,8 @@ $(document).ready(function(){
   </div>
 </div>
 
+{% endif %}
+
 <footer class="container-fluid text-center">
   <a href="#myPage" title="To Top">
     <span class="glyphicon glyphicon-chevron-up"></span>
@@ -505,7 +513,7 @@ $(document).ready(function(){
 </script>
 
 </body>
-{% endif %}
+
 {% endblock %}
 
     

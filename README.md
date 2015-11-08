@@ -32,5 +32,5 @@ python manage.py db upgrade
 
 ### Domain:
 ```sh
-https://5812d998.ngrok.com
+https://558e229b.ngrok.com
 ```
