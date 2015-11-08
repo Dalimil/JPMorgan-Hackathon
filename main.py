@@ -166,7 +166,8 @@ def admin():
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
             all_issues = json.loads(requests.get(url=DOMAIN+"/issues").text)["data"]
-            all_issues_img = [requests.get(url=DOMAIN+"/issue_image/"+i["id"]) for i in all_issues]
+            # all_issues_img = [requests.get(url=DOMAIN+"/issue_image/"+i["id"]) for i in all_issues]
+            all_issues_img = [i for i in range(len(all_issues))]
             style="width:100%;height:400px;border: 1px solid black; border-radius: 15px;"
             all_projects_map = create_map(style, [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects], "projects01")
             all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "users01")
@@ -202,7 +203,7 @@ def email(project_id):
 @app.route('/report', methods=['POST'])
 def report():
     f = request.files['image_file']
-    name = request.form['name']
+    kind = request.form['kind']
     description = request.form['description']
     f.save('issue_pics/uploaded_file.txt')
     return redirect(url_for('index'))
