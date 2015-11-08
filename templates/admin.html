@@ -437,13 +437,13 @@
           </div>
           <div class="panel-body">
             <p><strong>Date: </strong>{{ item.data.date }}</p>
-            <p><strong>Image: </strong>{{ item.img }}</p>
+            <p><strong>Image: </strong><img width="200px;" src="https://4019e606.ngrok.com/issue_image/{{ item.data.id }}"></p>
             <p><strong>Location: </strong>({{ item.data.lat }}, {{ item.data.lng }})</p>
             <p><strong>Description: </strong>{{ item.data.description }}</p>
           </div>
           <div class="panel-footer plan" style="text-align:center">
           <form action="/resolve_issue" method="POST">
-              <input type="hidden" name="issue_id" value="{{ item.id }}">
+              <input type="hidden" name="issue_id" value="{{ item.data.id }}">
               <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Resolve</button>
             </form>
         </div>
