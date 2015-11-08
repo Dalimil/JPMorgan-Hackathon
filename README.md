@@ -1,4 +1,8 @@
-# Urban Roots
+# JPMorgan Chase - "Code for Good" Hackathon (Glasgow, 7-8th Nov 2015)
+
+**Target non-profit organization:** Urban Roots 
+
+**Team:** [Dalimil Hajek](https://github.com/dalimil), [Miguel Jaques](https://github.com/seuqaj114), [Willy Dinata](https://github.com/whdinata), [Michael Ahari](https://github.com/MichaelAhari), [KamenB](https://github.com/KamenB)
 
 ## Screenshots
 
@@ -10,6 +14,8 @@
 
 
 ## Installation
+
+*Please note that all the code was written as quickly as possible (in just 24 hours) and is therefore of poor quality and lacks any documentation.*
 
 #### Install required packages
 ```sh
@@ -27,9 +33,4 @@ python main.py
 python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
-```
-
-### Domain:
-```sh
-https://275ced70.ngrok.com
 ```
