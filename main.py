@@ -167,7 +167,6 @@ def admin():
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
             all_issues = json.loads(requests.get(url=DOMAIN+"/issues").text)["data"]
-            print(all_issues)
             style="width:100%;height:400px;border: 1px solid black; border-radius: 15px;"
             all_projects_map = create_map(style, [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects], "projects01")
             all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "users01")
