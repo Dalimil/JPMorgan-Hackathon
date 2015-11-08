@@ -21,7 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wigdnybtvbxjyl:VI5y4w1SgdVdo
 db.init_app(app)
 app.register_blueprint(api)
 
-DOMAIN = "https://4019e606.ngrok.com"
+DOMAIN = "https://275ced70.ngrok.com"
 
 @app.route('/')
 def index():
@@ -208,7 +208,6 @@ def report():
     kind = request.form['kind']
     description = request.form['description']
     
-    #print(f.read().encode('base64'))
     r = requests.post(url=DOMAIN+"/create_issue", 
         data=json.dumps({"description":description, "kind":kind, "lat":lat, "lng":lng, "image":f.read().encode('base64')}))
 
