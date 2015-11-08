@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import Model,BaseQuery
 import os
 from api import api
 from models import db
-from models import User, Project
+from models import User, Project, Issue
 import requests
 import json
 from create_map import create_map
@@ -203,9 +203,19 @@ def email(project_id):
 @app.route('/report', methods=['POST'])
 def report():
     f = request.files['image_file']
+    lat = 0.0
+    lng = 0.0
     kind = request.form['kind']
     description = request.form['description']
-    f.save('issue_pics/uploaded_file.txt')
+    
+    #print(f.read().encode('base64'))
+    r = requests.post(url=DOMAIN+"/create_issue", 
+        data=json.dumps({"description":description, "kind":kind, "lat":lat, "lng":lng, "image":f.read().encode('base64')}))
+
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during issue creation"
+
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
