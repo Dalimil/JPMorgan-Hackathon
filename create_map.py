@@ -1,8 +1,8 @@
 from flask.ext.googlemaps import Map
 
-def create_map(style, markers, info_boxes):
+def create_map(style, markers, info_boxes, id):
     mymap = Map(
-        identifier="view-side",
+        identifier=id,
         lat=55.855478,
         lng=-4.2560766,
         style=style,
