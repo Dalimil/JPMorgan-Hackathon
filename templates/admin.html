@@ -177,8 +177,6 @@
 
 {% block content %}
 
-
-
 {% if loggedIn == False %}
 <body>
 <div class="jumbotron text-center">
@@ -199,7 +197,7 @@
   </div>
   <div class="row">
   <div class="">
-    <form method="POST" action="/admin" class="form-horizontal">
+    <form method="POST" action="" class="form-horizontal">
     <div class="form-group">
       <div class="col-sm-offset-5 col-sm-2">
         <input type="text" class="form-control" name="username" placeholder="Enter username">
@@ -286,10 +284,9 @@
   </div>
 </div>
    
-<!-- users -->
 <div id="users" class="container-fluid text-center">
-    <div class="container">
-    <h4>Create a new project</h3>
+    <h2>ALL USERS</h2>
+    <h4>Create a new project</h4>
       <form action="" method="POST" id="projectform">
         <h3>Name of Project:</h3>
         <input type="text" name="name">
@@ -298,14 +295,12 @@
         <h3>Number of people</h3>   
         <input type="text" name="num_people"> 
         <h3>Description:</h3>
-        <input cols="40" rows="5" name="description" type="textarea"></input>
-        <div class="container">
+        <input cols="40" rows="5" name="description" type="textarea">
+        
         <button type="submit" class="btn btn-success btn-lg">Create</button>
-        </div>
-      </form>     
-    </div>
+        
+      </form>  
 </div>
-<!-- end users -->
 
 <footer class="container-fluid text-center">
   <a href="#myPage" title="To Top">
