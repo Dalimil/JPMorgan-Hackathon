@@ -48,8 +48,11 @@ public class ReportActivity extends UrbanRootActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        setTitle("Report Vandalism");
         initView();
+
+        String title = getIntent().getStringExtra("title");
+        setTitle(title);
+
 
 //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //        // Define the criteria how to select the locatioin provider -> use
@@ -123,24 +126,25 @@ public class ReportActivity extends UrbanRootActivity{
                         bitmap = android.provider.MediaStore.Images.Media
                                 .getBitmap(cr, selectedImage);
 
-                        int newWidth = bitmap.getWidth() / 2;
-                        int newHeight = bitmap.getHeight() / 2;
+                        Bitmap newImage = resizeImage(bitmap);
+                        Bitmap rotatedBitmap = newImage;
 
-                        Matrix matrix = new Matrix();
+                        if(newImage.getWidth() > newImage.getHeight()) {
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(90);
 
-                        matrix.postRotate(90);
+                            rotatedBitmap = Bitmap.createBitmap(newImage, 0, 0, newImage.getWidth(), newImage.getHeight(), matrix, true);
+                        }
 
-                        Bitmap newImage = Bitmap.createScaledBitmap(bitmap,
-                                newWidth,
-                                newHeight,
-                                false);
-
-                        Bitmap rotatedBitmap = Bitmap.createBitmap(newImage, 0, 0, newImage.getWidth(), newImage.getHeight(), matrix, true);
                         ivImage.setImageBitmap(rotatedBitmap);
 
                         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+                        rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
                         byte[] byteArray = byteArrayOutputStream .toByteArray();
+
+
+                        System.out.println(byteArray.length);
                         encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
                     } catch (Exception e) {
                         Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
@@ -149,6 +153,15 @@ public class ReportActivity extends UrbanRootActivity{
                     }
                 }
         }
+    }
+
+    private Bitmap resizeImage(Bitmap bitmap){
+        int newWidth = (int) (bitmap.getWidth() * 0.1);
+        int newHeight = (int) (bitmap.getHeight() * 0.1);
+        return Bitmap.createScaledBitmap(bitmap,
+                newWidth,
+                newHeight,
+                false);
     }
 
 //    @Override

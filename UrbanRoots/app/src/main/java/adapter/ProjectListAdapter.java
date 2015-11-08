@@ -1,15 +1,21 @@
 package adapter;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import entity.Project;
+import helper.API;
+import helper.UrbanRootSharedPreferenceHelper;
+import roots.urban.com.urbanroots.LoginActivity;
 import roots.urban.com.urbanroots.R;
 
 /**
@@ -26,6 +32,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         public TextView tvLng;
         public TextView tvAddress;
         public TextView tvDescription;
+        public Button btJoin;
 
 
         public ViewHolder(View view) {
@@ -36,6 +43,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             tvLng = (TextView) view.findViewById(R.id.lng);
             tvAddress = (TextView) view.findViewById(R.id.address);
             tvDescription = (TextView) view.findViewById(R.id.description);
+            btJoin = (Button) view.findViewById(R.id.join);
         }
     }
 
@@ -48,6 +56,27 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
     public void setData(List<Project> projects){
         this.projects = projects;
+        notifyDataSetChanged();
+    }
+
+    public void updateData(List<Project> userProjects){
+        List<Project> temps;
+
+        if(userProjects.size() > projects.size()){
+            temps = userProjects;
+            userProjects = projects;
+            projects = temps;
+        }
+
+        for(Project userProject : userProjects){
+            for(Project project : projects) {
+                if (userProject.getId().equals(project.getId())){
+                    project.setIsJoin(true);
+                    break;
+                }
+            }
+        }
+
         notifyDataSetChanged();
     }
 
@@ -66,7 +95,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.tvName.setText(projects.get(position).getName());
@@ -75,6 +104,32 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         holder.tvLng.setText(projects.get(position).getLng());
         holder.tvAddress.setText(projects.get(position).getAddress());
         holder.tvDescription.setText(projects.get(position).getDescription());
+
+        holder.btJoin.setTag(projects.get(position).getId());
+
+        if(projects.get(position).isJoin()) {
+            holder.btJoin.setText("Cancel");
+            holder.btJoin.setBackgroundColor(Color.RED);
+        } else{
+            holder.btJoin.setText("Join");
+            holder.btJoin.setBackgroundColor(holder.btJoin.getContext().getResources().getColor(R.color.colorPrimaryDark));
+        }
+
+        holder.btJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(UrbanRootSharedPreferenceHelper.getBoolean(v.getContext(), "login")){
+                    if(holder.btJoin.getText().toString().equalsIgnoreCase("join")){
+                        API.join(v.getContext(), UrbanRootSharedPreferenceHelper.getString(v.getContext(), "email"), (String)v.getTag());
+                    } else{
+                        API.cancel(v.getContext(), UrbanRootSharedPreferenceHelper.getString(v.getContext(), "email"), (String) v.getTag());
+                    }
+                } else{
+                    Intent intent = new Intent(v.getContext(), LoginActivity.class);
+                    v.getContext().startActivity(intent);
+                }
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
