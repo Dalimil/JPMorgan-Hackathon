@@ -28,6 +28,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         // each data item is just a string in this case
         public TextView tvName;
         public TextView tvNumPeople;
+        public TextView tvDate;
         public TextView tvLat;
         public TextView tvLng;
         public TextView tvAddress;
@@ -39,6 +40,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
             super(view);
             tvName = (TextView) view.findViewById(R.id.name);
             tvNumPeople = (TextView) view.findViewById(R.id.num_people);
+            tvDate = (TextView) view.findViewById(R.id.date);
             tvLat = (TextView) view.findViewById(R.id.lat);
             tvLng = (TextView) view.findViewById(R.id.lng);
             tvAddress = (TextView) view.findViewById(R.id.address);
@@ -100,6 +102,7 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         // - replace the contents of the view with that element
         holder.tvName.setText(projects.get(position).getName());
         holder.tvNumPeople.setText(projects.get(position).getNum_people());
+        holder.tvDate.setText(projects.get(position).getDate());
 //        holder.tvLat.setText(projects.get(position).getLat());
 //        holder.tvLng.setText(projects.get(position).getLng());
         holder.tvLat.setVisibility(View.GONE);

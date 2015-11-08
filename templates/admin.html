@@ -274,6 +274,7 @@
             <h1 style="font-size: 30px;">{{ item.name }}</h1>
           </div>
           <div class="panel-body">
+            <p><strong>Date: </strong>{{ item.date }}</p>
             <p><strong>Address: </strong>{{ item.address }}, Glasgow UK</p>
             <p><strong>Available: </strong>{{ item.count }}/{{ item.num_people }} people</p>
             <p><strong>Description: </strong>{{ item.description }}</p>
@@ -439,7 +440,7 @@
             <p><strong>Date: </strong>{{ item.data.date }}</p>
             <p><strong>Location: </strong>({{ item.data.lat }}, {{ item.data.lng }})</p>
             <p><strong>Description: </strong>{{ item.data.description }}</p>
-            <p><img style="border: 1px solid black; border-radius: 5px;height:300px;" alt="image" src="https://4019e606.ngrok.com/issue_image/{{ item.data.id }}"></p>
+            <p style="text-align:center;"><img style="border: 1px solid black; border-radius: 5px;height:400px;" alt="image" src="https://4019e606.ngrok.com/issue_image/{{ item.data.id }}"></p>
           </div>
           <div class="panel-footer plan" style="text-align:center">
           <form action="/resolve_issue" method="POST">

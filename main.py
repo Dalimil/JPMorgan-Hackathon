@@ -203,7 +203,7 @@ def email(project_id):
 @app.route('/report', methods=['POST'])
 def report():
     f = request.files['image_file']
-    name = request.form['name']
+    kind = request.form['kind']
     description = request.form['description']
     f.save('issue_pics/uploaded_file.txt')
     return redirect(url_for('index'))
