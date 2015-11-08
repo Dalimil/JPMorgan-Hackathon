@@ -82,3 +82,20 @@ class Project(db.Model):
     def __str__(self):
         return "{0} {1} {2} {3}".format(self.name, self.description, self.address, self.num_people, self.image) 
 
+class Issue(db.Model):
+    __tablename__ = 'issues'
+
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.Text)
+    lat = db.Column(db.Float)
+    lng = db.Column(db.Float)
+    kind = db.Column(db.String(80))
+    image = db.Column(db.String(80),default='')
+
+    def __init__(self, description, lat, lng, kind, image=None):
+        self.description = description
+        self.lat = float(lat)
+        self.lng = float(lng)
+        self.kind = kind
+        if image:
+            self.image = image

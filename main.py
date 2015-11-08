@@ -145,11 +145,32 @@ def projects():
 
     projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
     return render_template('projects.html',projects=projects);
-                   
+        
+@app.route('/admin/email/<project_id>',methods=['GET','POST'])
+def email(project_id):
+    if 'admin' in session:
+        if request.method == 'POST':
+            url = "https://api.mailgun.net/v3/sandboxff7ed2cffc264af087e9442d1e5b02e8.mailgun.org/messages"
+
+            text = request.form["text"]
+            subject = request.form["subject"]
+
+            for user in Project.query.filter_by(id=project_id).first().users:
+                email = user.email
+
+                data = {"from":"urbanroots@hackathon.com","to":email,"subject":subject,"text":text}
+
+                r = requests.post(url,auth=("api","key-e8921e9f18f175219e090d218a3c6db5"),data=data)
+
+            return redirect(url_for('admin'))
+            
+        if request.method == 'GET':
+            return render_template('email.html',project_id=project_id);
+
 
 @app.route('/report')
 def report():
     return render_template('report.html')
 
 if __name__ == '__main__':
-    app.run(port=8080, debug=True, threaded=True) 
+    app.run(port=8080, debug=False, threaded=True) 

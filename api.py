@@ -1,5 +1,5 @@
-from flask import Blueprint, request
-from models import User, Project, db
+from flask import Blueprint, request, send_from_directory
+from models import User, Project, Issue, db
 import json
 import requests
 
@@ -62,7 +62,6 @@ def projects(email=None):
 		proj_list = [row2dict(p) for p in Project.query.filter(Project.users.any(email=email)).all()]
 	else:
 		proj_list = [row2dict(p) for p in Project.query.all()]
-	print len(proj_list)
 	return json.dumps({"data":proj_list})
 
 @api.route("/users")
@@ -79,8 +78,19 @@ def users(project_id=None):
 def issue():
 	if request.method == "POST":
 		data = json.loads(request.data)
-		fh = open("pics/imageToSave.png", "wb")
+		issue = Issue(data["description"], data["lat"], data["lng"], data["kind"])
+		db.session.add(issue)
+		db.session.commit()
+		fh = open("issue_pics/{}.png".format(issue.id), "wb")
 		fh.write(data["image"].decode('base64'))
 		fh.close()
 
 		return json.dumps({"result":True})
+
+@api.route("/project_image/<project_id>", methods=["GET"])
+def project_image(project_id):
+	return send_from_directory('project_pics', '{}.jpg'.format(project_id))
+
+@api.route("/issue_image/<issue_id>", methods=["GET"])
+def issue_image(issue_id):
+	return send_from_directory('issue_pics', '{}.jpg'.format(issue_id))
