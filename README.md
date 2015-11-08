@@ -1,10 +1,12 @@
 # Urban Roots
 
-## TODO
+## Screenshots
 
-api.py -> /remove_issue implement functionality (remove an issue with a give issue_id)
-
-main.py -> report receives a file ...where to save it
+![01](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_10-58-53.png)
+![02](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_11-09-04.png)
+![03](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_11-13-23.png)
+![04](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_11-15-07.png)
+![05](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_10-59-56.png)
 
 
 ## Installation
