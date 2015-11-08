@@ -21,7 +21,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wigdnybtvbxjyl:VI5y4w1SgdVdo
 db.init_app(app)
 app.register_blueprint(api)
 
-DOMAIN = "https://558e229b.ngrok.com"
+DOMAIN = "https://4019e606.ngrok.com"
 
 @app.route('/')
 def index():
@@ -202,7 +202,7 @@ def report():
     f = request.files['image_file']
     name = request.form['name']
     description = request.form['description']
-    # where do we save the image: f.save('/var/www/uploads/uploaded_file.txt')
+    f.save('issue_pics/uploaded_file.txt')
     return redirect(url_for('index'))
 
 if __name__ == '__main__':

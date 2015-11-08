@@ -101,9 +101,8 @@ def create_issue():
 @api.route("/remove_issue", methods=["POST"])
 def remove_issue():
 	data = json.loads(request.data)
-	#TODO
-	# use issue_id
-	#
+	Issue.query.filter_by(id=data["issue_id"]).delete()
+	db.session.commit()
 	return json.dumps({"result":True})
 
 @api.route("/issues")
