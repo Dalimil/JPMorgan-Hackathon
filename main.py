@@ -86,6 +86,10 @@ def register():
         session['email'] = email
     else:
         print "Error during registration"
+
+    ref = request.args.get('ref', '');
+    if(ref == 'admin'):
+        return redirect(url_for("admin"))
     return redirect(url_for("index"))
 
 @app.route('/logout')
@@ -181,7 +185,7 @@ def email(project_id):
 
 @app.route('/report', methods=['POST'])
 def report():
-    
+
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
