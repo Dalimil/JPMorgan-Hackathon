@@ -109,6 +109,7 @@ def admin():
     loggedIn = False
     all_projects = None
     all_users = None
+    all_projects_map = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -122,8 +123,8 @@ def admin():
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
             all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects])
-            
-    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
+
+    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users)
 
 
 @app.route('/admin/projects',methods=['GET','POST'])
