@@ -442,7 +442,7 @@
             <p><strong>Description: </strong>{{ item.description }}</p>
           </div>
           <div class="panel-footer plan" style="text-align:center">
-          <form action="/remove_issue" method="POST">
+          <form action="/resolve_issue" method="POST">
               <input type="hidden" name="issue_id" value="{{ item.id }}">
               <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Resolve</button>
             </form>
