@@ -127,7 +127,7 @@ def admin():
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users)
 
-
+'''
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
     if request.method == 'POST':
@@ -145,7 +145,7 @@ def volunteer():
     users = User.query.all()
     #query = db.session.execute("SELECT * FROM User") 
     return render_template('volunteer.html',users=users);
- 
+ '''
 
 @app.route('/admin/projects',methods=['GET','POST'])
 def projects():
