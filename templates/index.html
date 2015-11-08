@@ -439,7 +439,7 @@
   </div>
 </div>
 
-<!-- Container (Contact Section) -->
+<!-- Container (Report Section) -->
 <div id="contact" class="container-fluid bg-grey">
   <h2 class="text-center">REPORTS, REQUESTS AND ISSUES</h2><br />
   <div class="row slideanim">
@@ -450,16 +450,20 @@
       <p><span class="glyphicon glyphicon-envelope"></span> someone@urbanroots.org.uk</p>	   
     </div>
     <div class="col-sm-7">
+    <form action="/report" method="POST" enctype="multipart/form-data">
       <div class="row">
-        <form action="/report" method="POST" enctype="multipart/form-data">
         <div class="col-sm-6 form-group">
-          <input class="form-control" name="name" placeholder="Name" type="text" required>
+          <input class="form-control input-md" name="name" placeholder="Name" type="text" required>
         </div>
         <div class="col-sm-6 form-group">
-          <input class="form-control" name="image_file" type="file" required>
+          <input class="form-control input-md" name="image_file" type="file" required>
         </div>
       </div>
-      <textarea class="form-control" name="description" placeholder="Description" rows="5"></textarea><br>
+      <div class="row">
+      <div class="col-sm-12 form-group">
+      <textarea class="form-control input-md" name="description" placeholder="Description" rows="5"></textarea>
+      </div>
+      </div>
       <div class="row">
         <div class="col-sm-12 form-group">
           <button class="btn btn-default btn-lg pull-right" type="submit">Send</button>

@@ -171,7 +171,7 @@ def admin():
             style="width:100%;height:400px;border: 1px solid black; border-radius: 15px;"
             all_projects_map = create_map(style, [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects], "projects01")
             all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "users01")
-            all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "issues01")
+            all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_issues], ["<p><strong>"+i["kind"].upper()+"</strong></p>" for i in all_issues], "issues01")
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users, all_users_map=all_users_map, all_issues=all_issues, all_issues_map=all_issues_map)
 
