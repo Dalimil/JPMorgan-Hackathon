@@ -3,7 +3,6 @@
 {% block title %}Urban Roots{% endblock %}
 {% block head %}
   {{ super() }}
-  {{ all_projects_map.js }}
   <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <style>
@@ -146,6 +145,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#my-projects">MY PROJECTS</a></li>
+        <li><a href="#map">PROJECT MAP</a></li>
         <li><a href="#all-projects">ALL PROJECTS</a></li>
       </ul>
     </div>
@@ -185,19 +185,25 @@
       <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
     </div>
   </div>
-  <br><br>
 </div>
+
+<div id="map" class="container-fluid text-center">
+	<h2>PROJECT MAP</h2>
+	<h3>Find projects near you.</h3><br />
+	<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+	{{ all_projects_map.js }}
+	{{ all_projects_map.html }}
+	</div>
+	<div class="col-sm-1"></div>
+	</div>
+</div>
+
 <div id="all-projects" class="container-fluid text-center">
   <h2>ALL PROJECTS</h2>
-  <h3>Find projects that might interest you.</h3><br />
-  <div class="row">
-  <div class="col-sm-1"></div>
-  <div class="col-sm-10">
-  {{ all_projects_map.html }}
-  </div>
-  <div class="col-sm-1"></div>
-  </div>
-  <br><br><br />
+  <h3>Find projects that might interest you.</h3>
+  <br><br>
   <div class="row slideanim">
     <div class="col-sm-4">
       <span class="glyphicon glyphicon-apple logo-small"></span>

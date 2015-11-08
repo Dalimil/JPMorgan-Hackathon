@@ -31,7 +31,7 @@ def index():
         email = session['email']
         my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
         all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
-        all_projects_map = create_map("width:100%;height:400px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"]+"</p>" for i in all_projects])
+        all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"][:1].upper()+i["name"][1:]+"</p>" for i in all_projects])
         print(my_projects)
         print(all_projects)
         print('Logged in as {}'.format(email))
