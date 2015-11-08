@@ -98,6 +98,14 @@ def create_issue():
 
 	return json.dumps({"result":True})
 
+@api.route("/remove_issue", methods=["POST"])
+def remove_issue():
+	data = json.loads(request.data)
+	#TODO
+	# use issue_id
+	#
+	return json.dumps({"result":True})
+
 @api.route("/issues")
 def issues():
 	return json.dumps({"data":[row2dict(i) for i in Issue.query.all()]})

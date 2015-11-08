@@ -416,6 +416,42 @@
   </div>
 </div>
 
+<div id="reports" class="container-fluid text-center">
+  <h2>ALL REPORTS</h2>
+  <h3>See all existing reports, requests and issues here.</h3><br />
+  <div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+  {{ all_issues_map.js }}
+  {{ all_issues_map.html }}
+  </div>
+  <div class="col-sm-1"></div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    {% for item in all_issues %}
+        <div class="col-sm-4">
+        <div class="panel panel-default text-center" style="text-align:justify">
+          <div class="panel-heading" style="text-align:center">
+            <h1 style="font-size: 30px;">{{ item.kind }}</h1>
+          </div>
+          <div class="panel-body">
+            <p><strong>Date: </strong>{{ item.date }}</p>
+            <p><strong>Image: </strong>{{ item.image }}</p>
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+          <div class="panel-footer plan" style="text-align:center">
+          <form action="/remove_issue" method="POST">
+              <input type="hidden" name="issue_id" value="{{ item.id }}">
+              <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Resolve</button>
+            </form>
+        </div>
+        </div>
+        </div>
+    {% endfor %}
+  </div>
+</div>
+
 <footer class="container-fluid text-center">
   <a href="#myPage" title="To Top">
     <span class="glyphicon glyphicon-chevron-up"></span>

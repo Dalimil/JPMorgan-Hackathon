@@ -135,6 +135,16 @@ def create_project():
 
     return redirect(url_for('admin'))
 
+@app.route('/resolve_issue', methods=['POST'])
+def resolve_issue():
+    r = requests.post(url=DOMAIN+"/remove_issue", data=json.dumps({"issue_id":request.form["issue_id"]}))
+
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during issue removal"
+
+    return redirect(url_for('admin'))
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
@@ -142,6 +152,8 @@ def admin():
     all_users = None
     all_projects_map = None
     all_users_map = None
+    all_issues = None
+    all_issues_map = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -154,11 +166,14 @@ def admin():
             loggedIn = True
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
+            all_issues = json.loads(requests.get(url=DOMAIN+"/issues").text)["data"]
+            print(all_issues)
             style="width:100%;height:400px;border: 1px solid black; border-radius: 15px;"
             all_projects_map = create_map(style, [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects], "projects01")
             all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "users01")
+            all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "issues01")
 
-    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users, all_users_map=all_users_map)
+    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users, all_users_map=all_users_map, all_issues=all_issues, all_issues_map=all_issues_map)
 
 
 @app.route('/admin/email/<project_id>',methods=['GET','POST'])
