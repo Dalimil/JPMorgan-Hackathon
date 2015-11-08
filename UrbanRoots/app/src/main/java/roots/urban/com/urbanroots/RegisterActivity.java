@@ -9,11 +9,36 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import entity.RegistrationData;
 import helper.API;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends UrbanRootActivity {
+
+    private static final Pattern EMAIL_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    private static final Pattern PASSWORD_REGEX =
+            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+
+    private String firstName;
+    private String lastName;
+    private String address;
+    private String email;
+    private String phoneNumber;
+    private String password;
+    private String passwordConfirmation;
+
+    private EditText etFirstName;
+    private EditText etLastName;
+    private EditText etAddress;
+    private EditText etEmail;
+    private EditText etPhoneNumber;
+    private EditText etPassword;
+    private EditText etPasswordConfirmation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,25 +51,92 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initView(){
+        etFirstName = (EditText) findViewById(R.id.first_name);
+        etLastName = (EditText) findViewById(R.id.last_name);
+        etAddress = (EditText) findViewById(R.id.address);
+        etEmail = (EditText) findViewById(R.id.email);
+        etPhoneNumber = (EditText) findViewById(R.id.phone_number);
+        etPassword = (EditText) findViewById(R.id.password);
+        etPasswordConfirmation = (EditText) findViewById(R.id.password_confirmation);
+
         findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                firstName = ((EditText) findViewById(R.id.first_name)).getText().toString();
+                lastName = ((EditText) findViewById(R.id.last_name)).getText().toString();
+                address = ((EditText) findViewById(R.id.address)).getText().toString();
+                email = ((EditText) findViewById(R.id.email)).getText().toString();
+                phoneNumber = ((EditText) findViewById(R.id.phone_number)).getText().toString();
+                password = ((EditText) findViewById(R.id.password)).getText().toString();
+                passwordConfirmation = ((EditText) findViewById(R.id.password_confirmation)).getText().toString();
 
-                String password = ((EditText)findViewById(R.id.password)).getText().toString();
-                String passwordConfirmation = ((EditText)findViewById(R.id.password_confirmation)).getText().toString();
-
-                if(password.equals(passwordConfirmation)) {
-                    String firstName = ((EditText) findViewById(R.id.first_name)).getText().toString();
-                    String lastName = ((EditText) findViewById(R.id.last_name)).getText().toString();
-                    String email = ((EditText) findViewById(R.id.email)).getText().toString();
-                    String phoneNumber = ((EditText) findViewById(R.id.phone_number)).getText().toString();
-
-                    RegistrationData data = new RegistrationData(firstName, lastName, email, phoneNumber, password);
-
-                    API.register(RegisterActivity.this, data);
+                if (isValid()) {
+                    sendData();
                 }
             }
         });
+    }
+
+    private boolean isValid(){
+        if(!isEmailValid(email)){
+            Toast.makeText(this, "Email is not valid", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!isPhoneNumberValid(phoneNumber)){
+            Toast.makeText(this, "Phone Number is not valid", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!isPasswordValid(password)){
+            Toast.makeText(this, "Password should follow the following: at least 8 characters, contains lower case, upper case, special character @#$%^&+=, no whitespace", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!password.equals(passwordConfirmation)){
+            Toast.makeText(this, "Password doesn't match", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isPasswordValid(String password){
+        if(password.equals("")){
+            return false;
+        }
+
+        Matcher matcher = PASSWORD_REGEX.matcher(password);
+        return matcher.find();
+    }
+
+    private boolean isPhoneNumberValid(String phoneNumber){
+        if(phoneNumber.equals("")){
+            return false;
+        }
+
+        for(int i = 0; i < phoneNumber.length(); i++){
+            if(Character.isLetter(phoneNumber.charAt(i))){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isEmailValid(String email){
+        if(email.equals("")){
+            return false;
+        }
+
+        Matcher matcher = EMAIL_REGEX.matcher(email);
+        return matcher.find();
+    }
+
+    private void sendData(){
+        RegistrationData data = new RegistrationData(firstName, lastName, address, email, phoneNumber, password);
+
+        API.register(RegisterActivity.this, data);
     }
 
 }

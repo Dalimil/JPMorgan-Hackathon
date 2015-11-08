@@ -4,16 +4,63 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:background="#2196F3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <include
+        layout="@layout/toolbar"/>
 
-    <RelativeLayout
-        android:id="@+id/container"
+    <android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        
+        <LinearLayout
+            android:id="@+id/left_menu"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:orientation="vertical"
+            android:background="@android:color/white">
+
+            <TextView
+                android:id="@+id/vandalism"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:text="Report Vandalism"/>
+
+            <TextView
+                android:id="@+id/general"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Report General"
+                android:textColor="@android:color/black"
+                android:background="@drawable/item_separator"/>
+
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:text="Login"
+                android:background="@drawable/item_separator"/>
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:text="Logout"
+                android:background="@drawable/item_separator"/>
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>

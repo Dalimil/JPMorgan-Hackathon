@@ -18,45 +18,71 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class ReportActivity extends UrbanRootActivity {
+import entity.ReportData;
+import helper.API;
 
+public class ReportActivity extends UrbanRootActivity{
+    private LocationManager locationManager;
     private String selectedImagePath;
     private ImageView ivImage;
-    private String lat, lon;
+    private String lat = "39.920770", lon = "39.920770";
+    private String provider;
+    private String encoded;
     Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        setTitle("Report Vandalism");
         initView();
-        //getLocation();
-    }
 
-//    public void getLocation()
-//    {
-//        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        String title = getIntent().getStringExtra("title");
+        setTitle(title);
+
+
+//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 //        // Define the criteria how to select the locatioin provider -> use
 //        // default
 //        Criteria criteria = new Criteria();
+//        provider = locationManager.getBestProvider(criteria, false);
 //
 //        try {
-//            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-//            Toast.makeText(this, location.getLatitude() + " " + location.getLongitude(), Toast.LENGTH_LONG).show();
+//            Location location = locationManager.getLastKnownLocation(provider);
+//
+//            // Initialize the location fields
+//            if (location != null) {
+//                System.out.println("Provider " + provider + " has been selected.");
+//                onLocationChanged(location);
+//            } else {
+//                Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();
+//            }
 //        }
 //        catch(SecurityException e){
+//            e.printStackTrace();
+//        }
+    }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        try {
+//            locationManager.requestLocationUpdates(provider, 400, 1, this);
+//        } catch(SecurityException e){
 //            e.printStackTrace();
 //        }
 //    }
@@ -72,6 +98,16 @@ public class ReportActivity extends UrbanRootActivity {
                         Uri.fromFile(photo));
                 imageUri = Uri.fromFile(photo);
                 startActivityForResult(intent, 1);
+            }
+        });
+
+        findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String description = ((EditText) findViewById(R.id.description)).getText().toString();
+                ReportData data = new ReportData(encoded, description, lat, lon, "vandalism");
+
+                API.report(ReportActivity.this, data);
             }
         });
     }
@@ -90,22 +126,26 @@ public class ReportActivity extends UrbanRootActivity {
                         bitmap = android.provider.MediaStore.Images.Media
                                 .getBitmap(cr, selectedImage);
 
-                        int newWidth = bitmap.getWidth() / 2;
-                        int newHeight = bitmap.getHeight() / 2;
+                        Bitmap newImage = resizeImage(bitmap);
+                        Bitmap rotatedBitmap = newImage;
 
-                        Matrix matrix = new Matrix();
+                        if(newImage.getWidth() > newImage.getHeight()) {
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(90);
 
-                        matrix.postRotate(90);
+                            rotatedBitmap = Bitmap.createBitmap(newImage, 0, 0, newImage.getWidth(), newImage.getHeight(), matrix, true);
+                        }
 
-                        Bitmap newImage = Bitmap.createScaledBitmap(bitmap,
-                                newWidth,
-                                newHeight,
-                                false);
-
-                        Bitmap rotatedBitmap = Bitmap.createBitmap(newImage, 0, 0, newImage.getWidth(), newImage.getHeight(), matrix, true);
                         ivImage.setImageBitmap(rotatedBitmap);
-                        Toast.makeText(this, selectedImage.toString(),
-                                Toast.LENGTH_LONG).show();
+
+                        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                        rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+
+                        byte[] byteArray = byteArrayOutputStream .toByteArray();
+
+
+                        System.out.println(byteArray.length);
+                        encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
                     } catch (Exception e) {
                         Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT)
                                 .show();
@@ -114,4 +154,50 @@ public class ReportActivity extends UrbanRootActivity {
                 }
         }
     }
+
+    private Bitmap resizeImage(Bitmap bitmap){
+        int newWidth = (int) (bitmap.getWidth() * 0.1);
+        int newHeight = (int) (bitmap.getHeight() * 0.1);
+        return Bitmap.createScaledBitmap(bitmap,
+                newWidth,
+                newHeight,
+                false);
+    }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        try {
+//            locationManager.removeUpdates(this);
+//        } catch(SecurityException e){
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void onLocationChanged(Location location) {
+//        int lat = (int) (location.getLatitude());
+//        int lng = (int) (location.getLongitude());
+//        lon = lng + "";
+//        this.lat = lat + "";
+//    }
+//
+//    @Override
+//    public void onStatusChanged(String provider, int status, Bundle extras) {
+//        // TODO Auto-generated method stub
+//
+//    }
+//
+//    @Override
+//    public void onProviderEnabled(String provider) {
+//        Toast.makeText(this, "Enabled new provider " + provider,
+//                Toast.LENGTH_SHORT).show();
+//
+//    }
+//
+//    @Override
+//    public void onProviderDisabled(String provider) {
+//        Toast.makeText(this, "Disabled provider " + provider,
+//                Toast.LENGTH_SHORT).show();
+//    }
 }
