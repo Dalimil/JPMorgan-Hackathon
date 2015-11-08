@@ -14,6 +14,7 @@ public class Project {
     private String lng;
     private String id;
     private String name;
+    private boolean isJoin = false;
 
     public Project(JSONObject object){
         try {
@@ -60,5 +61,13 @@ public class Project {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isJoin() {
+        return isJoin;
+    }
+
+    public void setIsJoin(boolean isJoin) {
+        this.isJoin = isJoin;
     }
 }

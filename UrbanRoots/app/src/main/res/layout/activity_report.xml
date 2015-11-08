@@ -22,6 +22,8 @@
         android:lines="5"
         android:layout_below="@id/image"
         android:hint="Description"
+        android:textColor="@android:color/black"
+        android:textColorHint="@android:color/black"
         android:background="#E1E1E1"/>
 
     <Button

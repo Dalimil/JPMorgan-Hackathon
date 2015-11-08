@@ -10,11 +10,15 @@ import java.util.List;
 import adapter.ProjectListAdapter;
 import entity.Project;
 import helper.API;
+import helper.UrbanRootSharedPreferenceHelper;
 import listener.ProjectDataListener;
 
 public class HomeActivity extends UrbanRootActivity implements ProjectDataListener {
 
     private ProjectListAdapter adapter;
+
+    private int counter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +26,16 @@ public class HomeActivity extends UrbanRootActivity implements ProjectDataListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if(UrbanRootSharedPreferenceHelper.getBoolean(this, "login")){
+            setTitle("My Projects");
+            API.getProjects(this, this, "/" + UrbanRootSharedPreferenceHelper.getString(this, "email"));
+            API.getProjects(this, this);
+        } else {
+            setTitle("Project List");
+            API.getProjects(this, this);
+        }
+
         initView();
-        API.getProjects(this, this);
     }
 
     private void initView(){
@@ -43,12 +55,18 @@ public class HomeActivity extends UrbanRootActivity implements ProjectDataListen
     }
 
     @Override
-    public void onError() {
+    public synchronized void onError() {
 
     }
 
     @Override
-    public void onSuccess(List<Project> projects) {
-        adapter.setData(projects);
+    public synchronized void onSuccess(List<Project> projects) {
+        counter++;
+
+        if(counter == 1) {
+            adapter.setData(projects);
+        }else{
+            adapter.updateData(projects);
+        }
     }
 }

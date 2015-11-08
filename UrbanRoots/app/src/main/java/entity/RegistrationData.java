@@ -6,13 +6,15 @@ package entity;
 public class RegistrationData {
     private String firstName;
     private String lastName;
+    private String address;
     private String email;
     private String phone;
     private String password;
 
-    public RegistrationData(String firstName, String lastName, String email, String phone, String password){
+    public RegistrationData(String firstName, String lastName, String address, String email, String phone, String password){
         this.firstName = firstName;
         this.lastName = lastName;
+        this.address = address;
         this.email = email;
         this.phone = phone;
         this.password = password;
@@ -24,6 +26,10 @@ public class RegistrationData {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public String getEmail() {
