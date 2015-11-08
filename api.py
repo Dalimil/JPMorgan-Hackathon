@@ -46,6 +46,7 @@ def create_project():
 @api.route("/add_project", methods=['POST'])
 def add_project():
 	data = json.loads(request.data)
+	print data
 	user = User.query.filter_by(email=data["email"]).first()
 
 	p = Project.query.filter_by(id=int(data["project_id"])).first()
@@ -111,8 +112,8 @@ def issues():
 
 @api.route("/project_image/<project_id>", methods=["GET"]) # we are not doing this
 def project_image(project_id):
-	return send_from_directory('project_pics', '{}.jpg'.format(project_id))
+	return send_from_directory('project_pics', '{}.png'.format(project_id))
 
 @api.route("/issue_image/<issue_id>", methods=["GET"])
 def issue_image(issue_id):
-	return send_from_directory('issue_pics', '{}.jpg'.format(issue_id))
+	return send_from_directory('issue_pics', '{}.png'.format(issue_id))

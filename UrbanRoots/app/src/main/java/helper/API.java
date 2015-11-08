@@ -29,7 +29,7 @@ import roots.urban.com.urbanroots.HomeActivity;
  * Created by whdinata on 11/7/15.
  */
 public final class API {
-    public static final String DOMAIN = "https://558e229b.ngrok.com";
+    public static final String DOMAIN = "https://4019e606.ngrok.com";
     public static final String LOGIN = DOMAIN + "/authenticate";
     public static final String CREATE_USER = DOMAIN + "/create_user";
     public static final String CREATE_ISSUE = DOMAIN + "/create_issue";
@@ -95,11 +95,12 @@ public final class API {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, CREATE_USER, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                UrbanRootSharedPreferenceHelper.putString(context, "email", data.getEmail());
+                UrbanRootSharedPreferenceHelper.putBoolean(context, "login", true);
+
                 Intent intent = new Intent(context, HomeActivity.class);
                 context.startActivity(intent);
                 dialog.dismiss();
-
-                System.out.println("Response: " + response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -133,6 +134,9 @@ public final class API {
             e.printStackTrace();
         }
 
+        System.out.println("Long: " + data.getLongitude());
+        System.out.println("Lat: " + data.getLatitude());
+
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, CREATE_ISSUE, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -165,11 +169,12 @@ public final class API {
 
         try {
             jsonObject.put("email", email);
-            jsonObject.put("projectId", projectId);
+            jsonObject.put("project_id", projectId);
         } catch(Exception e){
             e.printStackTrace();
         }
 
+        System.out.println(jsonObject.toString());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, ADD_PROJECT, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -203,7 +208,7 @@ public final class API {
 
         try {
             jsonObject.put("email", email);
-            jsonObject.put("projectId", projectId);
+            jsonObject.put("project_id", projectId);
         } catch(Exception e){
             e.printStackTrace();
         }

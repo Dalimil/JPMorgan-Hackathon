@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
  */
 public class UrbanRootSharedPreferenceHelper {
     private static final String PREF_NAME = "Urban Root";
+    public static final String EMAIL = "email";
+    public static final String LOGIN = "login";
 
     public static void putBoolean(Context context, String name, boolean value){
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);

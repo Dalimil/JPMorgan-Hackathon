@@ -20,6 +20,9 @@ import helper.UrbanRootSharedPreferenceHelper;
 
 public class UrbanRootActivity extends AppCompatActivity {
 
+    private static final String REPORT_VANDALISM = "Report Vandalism";
+    private static final String REPORT_GENERAL = "Report General";
+
     private DrawerLayout mDrawerLayout;
     private LinearLayout llMenu;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -70,8 +73,7 @@ public class UrbanRootActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
-                Intent intent = new Intent(UrbanRootActivity.this, ReportActivity.class);
-                intent.putExtra("title", "Report Vandalism");
+                Intent intent = ReportActivity.createIntent(UrbanRootActivity.this, REPORT_VANDALISM);
                 startActivity(intent);
             }
         });
@@ -80,8 +82,7 @@ public class UrbanRootActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
-                Intent intent = new Intent(UrbanRootActivity.this, ReportActivity.class);
-                intent.putExtra("title", "Report General");
+                Intent intent = ReportActivity.createIntent(UrbanRootActivity.this, REPORT_GENERAL);
                 startActivity(intent);
             }
         });
@@ -99,8 +100,8 @@ public class UrbanRootActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
-                UrbanRootSharedPreferenceHelper.putString(UrbanRootActivity.this, "email", "");
-                UrbanRootSharedPreferenceHelper.putBoolean(UrbanRootActivity.this, "login", false);
+                UrbanRootSharedPreferenceHelper.putString(UrbanRootActivity.this, UrbanRootSharedPreferenceHelper.EMAIL, "");
+                UrbanRootSharedPreferenceHelper.putBoolean(UrbanRootActivity.this, UrbanRootSharedPreferenceHelper.LOGIN, false);
 
                 Intent intent = new Intent(UrbanRootActivity.this, HomeActivity.class);
                 startActivity(intent);
@@ -109,7 +110,7 @@ public class UrbanRootActivity extends AppCompatActivity {
             }
         });
 
-        if(UrbanRootSharedPreferenceHelper.getBoolean(this, "login")){
+        if(UrbanRootSharedPreferenceHelper.getBoolean(this, UrbanRootSharedPreferenceHelper.LOGIN)){
             findViewById(R.id.login).setVisibility(View.GONE);
             findViewById(R.id.logout).setVisibility(View.VISIBLE);
         } else{
@@ -120,15 +121,12 @@ public class UrbanRootActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // If the nav drawer is open, hide action items related to the content view
-
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
     }
 
@@ -140,12 +138,9 @@ public class UrbanRootActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns
-        // true, then it has handled the app icon touch event
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }

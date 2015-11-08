@@ -100,8 +100,10 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
         // - replace the contents of the view with that element
         holder.tvName.setText(projects.get(position).getName());
         holder.tvNumPeople.setText(projects.get(position).getNum_people());
-        holder.tvLat.setText(projects.get(position).getLat());
-        holder.tvLng.setText(projects.get(position).getLng());
+//        holder.tvLat.setText(projects.get(position).getLat());
+//        holder.tvLng.setText(projects.get(position).getLng());
+        holder.tvLat.setVisibility(View.GONE);
+        holder.tvLng.setVisibility(View.GONE);
         holder.tvAddress.setText(projects.get(position).getAddress());
         holder.tvDescription.setText(projects.get(position).getDescription());
 

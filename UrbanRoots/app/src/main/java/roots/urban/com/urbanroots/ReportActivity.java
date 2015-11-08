@@ -40,14 +40,22 @@ import java.util.Locale;
 import entity.ReportData;
 import helper.API;
 
-public class ReportActivity extends AppCompatActivity{
+public class ReportActivity extends AppCompatActivity implements LocationListener{
+    private static final String TITLE = "title";
     private LocationManager locationManager;
-    private String selectedImagePath;
     private ImageView ivImage;
-    private String lat = "39.920770", lon = "39.920770";
+    private String lat = "0", lon = "0";
     private String provider;
     private String encoded;
+    private String kind;
     Uri imageUri;
+
+    public static Intent createIntent(Context context, String title){
+        Intent intent = new Intent(context, ReportActivity.class);
+        intent.putExtra(TITLE, title);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,42 +69,60 @@ public class ReportActivity extends AppCompatActivity{
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        String title = getIntent().getStringExtra("title");
+        String title = getIntent().getStringExtra(TITLE);
         setTitle(title);
+        kind = title.split(" ")[1].toLowerCase();
 
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        provider = locationManager.getBestProvider(criteria, false);
 
-//        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//        // Define the criteria how to select the locatioin provider -> use
-//        // default
-//        Criteria criteria = new Criteria();
-//        provider = locationManager.getBestProvider(criteria, false);
-//
-//        try {
-//            Location location = locationManager.getLastKnownLocation(provider);
-//
-//            // Initialize the location fields
-//            if (location != null) {
-//                System.out.println("Provider " + provider + " has been selected.");
-//                onLocationChanged(location);
-//            } else {
-//                Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//        catch(SecurityException e){
-//            e.printStackTrace();
-//        }
+        try {
+            Location location = getLastBestLocation(locationManager);
+
+            if (location != null) {
+                System.out.println("Provider " + provider + " has been selected.");
+                onLocationChanged(location);
+            } else {
+                Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch(SecurityException e){
+            e.printStackTrace();
+        }
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        try {
-//            locationManager.requestLocationUpdates(provider, 400, 1, this);
-//        } catch(SecurityException e){
-//            e.printStackTrace();
-//        }
-//    }
+    private Location getLastBestLocation(LocationManager mLocationManager)throws SecurityException {
+        Location locationGPS = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        Location locationNet = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+        long GPSLocationTime = 0;
+        if (null != locationGPS) { GPSLocationTime = locationGPS.getTime(); }
+
+        long NetLocationTime = 0;
+
+        if (null != locationNet) {
+            NetLocationTime = locationNet.getTime();
+        }
+
+        if ( 0 < GPSLocationTime - NetLocationTime ) {
+            return locationGPS;
+        }
+        else {
+            return locationNet;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        try {
+            locationManager.requestLocationUpdates(provider, 400, 1, this);
+        } catch(SecurityException e){
+            e.printStackTrace();
+        }
+    }
 
     private void initView(){
         ivImage = (ImageView) findViewById(R.id.image);
@@ -116,7 +142,7 @@ public class ReportActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 String description = ((EditText) findViewById(R.id.description)).getText().toString();
-                ReportData data = new ReportData(encoded, description, lat, lon, "vandalism");
+                ReportData data = new ReportData(encoded, description, lon, lat, kind);
 
                 API.report(ReportActivity.this, data);
             }
@@ -186,40 +212,41 @@ public class ReportActivity extends AppCompatActivity{
                 false);
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        try {
-//            locationManager.removeUpdates(this);
-//        } catch(SecurityException e){
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    @Override
-//    public void onLocationChanged(Location location) {
-//        int lat = (int) (location.getLatitude());
-//        int lng = (int) (location.getLongitude());
-//        lon = lng + "";
-//        this.lat = lat + "";
-//    }
-//
-//    @Override
-//    public void onStatusChanged(String provider, int status, Bundle extras) {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void onProviderEnabled(String provider) {
-//        Toast.makeText(this, "Enabled new provider " + provider,
-//                Toast.LENGTH_SHORT).show();
-//
-//    }
-//
-//    @Override
-//    public void onProviderDisabled(String provider) {
-//        Toast.makeText(this, "Disabled provider " + provider,
-//                Toast.LENGTH_SHORT).show();
-//    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            locationManager.removeUpdates(this);
+        } catch(SecurityException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double lat = location.getLatitude();
+        double lng = location.getLongitude();
+        lon = lng + "";
+        this.lat = lat + "";
+
+        System.out.println("Long: " + lng);
+        System.out.println("Lat: " + lat);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        Toast.makeText(this, "Enabled new provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        Toast.makeText(this, "Disabled provider " + provider,
+                Toast.LENGTH_SHORT).show();
+    }
 }
