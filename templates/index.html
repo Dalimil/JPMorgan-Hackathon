@@ -228,7 +228,7 @@
 		        <p><strong>Description: </strong>{{ item.description }}</p>
 		    </div>
 		    <div class="panel-footer plan" style="text-align:center">
-		        <form action="" method="POST">
+		        <form action="/project_leave" method="POST">
 			        <input type="hidden" name="project_id" value="{{ item.id }}">
 			        <input type="hidden" name="email" value="{{ email }}">
 			        <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Remove</button>

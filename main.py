@@ -105,6 +105,16 @@ def project_sign_up():
 
     return redirect(url_for('index'))
 
+@app.route('/project_leave', methods=['POST'])
+def project_leave():
+    r = requests.post(url=DOMAIN+"/remove_project", 
+        data=json.dumps({"email":request.form["email"], "project_id":request.form["project_id"]}))
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during project leave"
+
+    return redirect(url_for('index'))
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
