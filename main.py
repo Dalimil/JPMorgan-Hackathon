@@ -115,6 +115,22 @@ def project_leave():
 
     return redirect(url_for('index'))
 
+@app.route('/new_project', methods=['POST'])
+def create_project():
+    r = requests.post(url=DOMAIN+"/create_project", 
+        data=json.dumps({
+            "name":request.form["name"],
+            "num_people":request.form["num_people"],
+            "description":request.form["description"],
+            "date":request.form["date"],
+            "address":request.form["address"]}))
+
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during project creation"
+
+    return redirect(url_for('admin'))
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
@@ -140,50 +156,6 @@ def admin():
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users, all_users_map=all_users_map)
 
-'''
-@app.route('/admin/volunteer', methods=['GET', 'POST'])
-def volunteer():
-    if request.method == 'POST':
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        email = request.form['email']
-        password = request.form['password']
-        address = request.form['address']
-        phone = request.form['phone']
-
-        newVolunteer = User(firstname,lastname,email,password,address, phone)
-        db.session.add(newVolunteer)
-        db.session.commit()
-         
-    if request.method == 'POST':
-        searchname = request.form['searchname']
-        searchDB = User.query.(last_name=searchname)
-
-    users = User.query.all()
-    #query = db.session.execute("SELECT * FROM User") 
-    return render_template('volunteer.html',users=users,searchDB=searchDB);
- 
-
-@app.route('/admin/projects',methods=['GET','POST'])
-def projects():
-    if 'admin' in session:
-        if request.method == 'POST':
-            name = request.form['name']
-            description = request.form['description']
-            address = request.form['address']
-            num_people = request.form['num_people']
-            image = request.form.get("image",None)
-            if (name == '' or description == '' or address == '' or num_people == ''):
-                print "Could not submit: empty field"
-            else:
-            	p = Project(name, description, address, int(num_people), image)
-            	db.session.add(p)
-            	db.session.commit()
-
-    projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
-    return render_template('projects.html',projects=projects);
-
-'''
 
 @app.route('/admin/email/<project_id>',methods=['GET','POST'])
 def email(project_id):
@@ -207,9 +179,10 @@ def email(project_id):
             return render_template('email.html',project_id=project_id);
 
 
-@app.route('/report')
+@app.route('/report', methods=['POST'])
 def report():
-    return render_template('report.html')
+    
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(port=8080, debug=False, threaded=True) 
