@@ -109,10 +109,10 @@ public class ProjectListAdapter extends RecyclerView.Adapter<ProjectListAdapter.
 
         if(projects.get(position).isJoin()) {
             holder.btJoin.setText("Cancel");
-            holder.btJoin.setBackgroundColor(Color.RED);
+            holder.btJoin.setBackgroundResource(R.drawable.button_rounded_red);
         } else{
             holder.btJoin.setText("Join");
-            holder.btJoin.setBackgroundColor(holder.btJoin.getContext().getResources().getColor(R.color.colorPrimaryDark));
+            holder.btJoin.setBackgroundResource(R.drawable.button_rounded);
         }
 
         holder.btJoin.setOnClickListener(new View.OnClickListener() {

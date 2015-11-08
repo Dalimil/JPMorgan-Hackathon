@@ -4,21 +4,17 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.app.Activity;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import helper.UrbanRootSharedPreferenceHelper;
 
@@ -48,19 +44,17 @@ public class UrbanRootActivity extends AppCompatActivity {
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.main_logo, R.string.app_name, R.string.app_name) {
+                toolbar, R.string.app_name, R.string.app_name) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(getTitle());
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                getSupportActionBar().setTitle(getTitle());
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
@@ -75,6 +69,7 @@ public class UrbanRootActivity extends AppCompatActivity {
         findViewById(R.id.vandalism).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
                 Intent intent = new Intent(UrbanRootActivity.this, ReportActivity.class);
                 intent.putExtra("title", "Report Vandalism");
                 startActivity(intent);
@@ -84,6 +79,7 @@ public class UrbanRootActivity extends AppCompatActivity {
         findViewById(R.id.general).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
                 Intent intent = new Intent(UrbanRootActivity.this, ReportActivity.class);
                 intent.putExtra("title", "Report General");
                 startActivity(intent);
@@ -93,6 +89,7 @@ public class UrbanRootActivity extends AppCompatActivity {
         findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
                 Intent intent = new Intent(UrbanRootActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -101,6 +98,7 @@ public class UrbanRootActivity extends AppCompatActivity {
         findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDrawerLayout.closeDrawer(Gravity.LEFT);
                 UrbanRootSharedPreferenceHelper.putString(UrbanRootActivity.this, "email", "");
                 UrbanRootSharedPreferenceHelper.putBoolean(UrbanRootActivity.this, "login", false);
 
@@ -123,6 +121,7 @@ public class UrbanRootActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
+
         return super.onPrepareOptionsMenu(menu);
     }
 

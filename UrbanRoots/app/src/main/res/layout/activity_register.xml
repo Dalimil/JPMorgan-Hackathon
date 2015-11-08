@@ -140,7 +140,7 @@
             android:layout_centerHorizontal="true"
             android:text="Register"
             android:textColor="@android:color/white"
-            android:background="@color/colorPrimaryDark"/>
+            android:background="@drawable/button_rounded"/>
     </RelativeLayout>
 
 </RelativeLayout>

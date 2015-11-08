@@ -9,9 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import helper.API;
+import helper.Validator;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -19,16 +23,28 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private View btLogin;
     private View tvRegister;
+    private Animation animVibration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         initView();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        animVibration = AnimationUtils.loadAnimation(getApplicationContext(),
+                R.anim.vibrate);
+
+        findViewById(R.id.logo).setAnimation(animVibration);
     }
 
     private void initView(){
@@ -41,7 +57,10 @@ public class LoginActivity extends AppCompatActivity {
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                API.login(LoginActivity.this, etUsername.getText().toString(), etPassword.getText().toString());
+
+                if(isValid()) {
+                    API.login(LoginActivity.this, etUsername.getText().toString(), etPassword.getText().toString());
+                }
             }
         });
 
@@ -52,5 +71,22 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private boolean isValid(){
+        String userName = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+
+        if(!Validator.isEmailValid(userName)){
+            Toast.makeText(this, "Username is not valid", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(!Validator.isPasswordValid(password)){
+            Toast.makeText(this, "Username and password are not matched", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }

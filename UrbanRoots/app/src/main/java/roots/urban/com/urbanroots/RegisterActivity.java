@@ -16,13 +16,9 @@ import java.util.regex.Pattern;
 
 import entity.RegistrationData;
 import helper.API;
+import helper.Validator;
 
-public class RegisterActivity extends UrbanRootActivity {
-
-    private static final Pattern EMAIL_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-    private static final Pattern PASSWORD_REGEX =
-            Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+public class RegisterActivity extends AppCompatActivity {
 
     private String firstName;
     private String lastName;
@@ -78,17 +74,17 @@ public class RegisterActivity extends UrbanRootActivity {
     }
 
     private boolean isValid(){
-        if(!isEmailValid(email)){
+        if(!Validator.isEmailValid(email)){
             Toast.makeText(this, "Email is not valid", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(!isPhoneNumberValid(phoneNumber)){
+        if(!Validator.isPhoneNumberValid(phoneNumber)){
             Toast.makeText(this, "Phone Number is not valid", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(!isPasswordValid(password)){
+        if(!Validator.isPasswordValid(password)){
             Toast.makeText(this, "Password should follow the following: at least 8 characters, contains lower case, upper case, special character @#$%^&+=, no whitespace", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -99,38 +95,6 @@ public class RegisterActivity extends UrbanRootActivity {
         }
 
         return true;
-    }
-
-    private boolean isPasswordValid(String password){
-        if(password.equals("")){
-            return false;
-        }
-
-        Matcher matcher = PASSWORD_REGEX.matcher(password);
-        return matcher.find();
-    }
-
-    private boolean isPhoneNumberValid(String phoneNumber){
-        if(phoneNumber.equals("")){
-            return false;
-        }
-
-        for(int i = 0; i < phoneNumber.length(); i++){
-            if(Character.isLetter(phoneNumber.charAt(i))){
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private boolean isEmailValid(String email){
-        if(email.equals("")){
-            return false;
-        }
-
-        Matcher matcher = EMAIL_REGEX.matcher(email);
-        return matcher.find();
     }
 
     private void sendData(){
