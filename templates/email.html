@@ -254,55 +254,17 @@
   </div>
 </div>
 
-<div id="projects" class="container-fluid text-center">
-  <h2>ALL PROJECTS</h2>
-  <h3>See all existing projects here.</h3><br />
-  <div class="row">
-  <div class="col-sm-1"></div>
-  <div class="col-sm-10">
-  {{ all_projects_map.js }}
-  {{ all_projects_map.html }}
-  </div>
-  <div class="col-sm-1"></div>
-  </div>
-  <br><br>
-  <div class="row slideanim">
-    {% for item in all_projects %}
-        <div class="col-sm-4">
-        <div class="panel panel-default text-center" style="text-align:justify">
-          <div class="panel-heading" style="text-align:center">
-            <h1 style="font-size: 30px;">{{ item.name }}</h1>
-          </div>
-          <div class="panel-body">
-            <p><strong>Address: </strong>{{ item.address }}, Glasgow UK</p>
-            <p><strong>Available: </strong>{{ item.count }}/{{ item.num_people }} people</p>
-            <p><strong>Description: </strong>{{ item.description }}</p>
-          </div>
-          <div class="panel-footer plan" style="text-align:center">
-          <form action="/admin/email/{{ item.id }}" method="GET">
-              <button type="submit" class="btn btn-lg">Send email to participants</button>
-            </form>
-        </div>
-        </div>
-        </div>
-    {% endfor %}
-  </div>
-</div>
    
 <div id="users" class="container-fluid text-center">
     <h2>ALL USERS</h2>
     <h4>Create a new project</h4>
       <form action="" method="POST" id="projectform">
-        <h3>Name of Project:</h3>
-        <input type="text" name="name">
-        <h3>Address</h3>
-        <input type="text" name="address">
-        <h3>Number of people</h3>   
-        <input type="text" name="num_people"> 
-        <h3>Description:</h3>
-        <input cols="40" rows="5" name="description" type="textarea">
-        
-        <button type="submit" class="btn btn-success btn-lg">Create</button>
+        <h3>Subject:</h3>
+        <input type="text" name="subject" style="width: 500px">
+        <h3>Text:</h3>
+        <textarea cols="70" rows="5" name="text" form="projectform"></textarea>
+        <br><br>
+        <button type="submit" style="width: 150px" class="btn btn-success btn-lg">Send</button>
         
       </form>  
 </div>
