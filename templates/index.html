@@ -174,6 +174,8 @@
   }
 
   </style>
+
+
 {% endblock %}
 
 {% block content %}
@@ -330,6 +332,12 @@
       </div>
     </div>
   </form>
+
+    <div id="fb-root"></div>
+    <div class="fb-share-button" 
+        data-href="https://codeforgood.herokuapp.com" 
+        data-layout="button_count">
+    </div>
 </div>
 
 <div id="about" class="container-fluid">
@@ -518,6 +526,34 @@ $(document).ready(function(){
     });
   });
 })
+</script>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1217844124908771',
+      xfbml      : true,
+      version    : 'v2.5'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+<script type="text/javascript" src="Location of SDK javascript">(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 </script>
 
 </body>
