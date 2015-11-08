@@ -182,7 +182,7 @@ def email(project_id):
         if request.method == 'POST':
             url = "https://api.mailgun.net/v3/sandboxff7ed2cffc264af087e9442d1e5b02e8.mailgun.org/messages"
             print request
-            text = request.get["text"]
+            text = request.form["description"]
             subject = request.form["subject"]
 
             for user in Project.query.filter_by(id=project_id).first().users:
@@ -195,7 +195,7 @@ def email(project_id):
             return redirect(url_for('admin'))
             
         if request.method == 'GET':
-            return render_template('email.html',project_id=project_id);
+            return render_template('email.html');
 
 
 @app.route('/report', methods=['POST'])
