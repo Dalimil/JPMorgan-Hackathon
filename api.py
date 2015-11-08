@@ -61,6 +61,16 @@ def projects(email=None):
 	print proj_list
 	return json.dumps({"data":proj_list})
 
+@api.route("/users")
+@api.route("/users/<project_id>")
+def users(project_id=None):
+	if project_id:
+		proj_list = [row2dict(p) for p in Project.query.filter_by(id=project_id).first().users]
+	else:
+		proj_list = [row2dict(p) for p in User.query.all()]
+	print proj_list
+	return json.dumps({"data":proj_list})
+
 @api.route("/issue", methods=["GET","POST"])
 def issue():
 	if request.method == "POST":

@@ -145,6 +145,7 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#my-projects">MY PROJECTS</a></li>
+        <li><a href="#map">PROJECT MAP</a></li>
         <li><a href="#all-projects">ALL PROJECTS</a></li>
       </ul>
     </div>
@@ -154,10 +155,10 @@
 <div class="jumbotron text-center">
 	<div class="row">
 		<div class="col-sm-offset-1 col-sm-5">
-		<h1>Hi {{ email }}</h1>
+		<h1 style="font-size:40px;">{{ email }}</h1>
 		</div>
 		<div class="col-sm-offset-2 col-sm-4">
-			<img width="50%"; src="{{ url_for('static', filename='img/logo.png') }}"> 
+			<img width="50%" src="{{ url_for('static', filename='img/logo.png') }}"> 
 		</div>
 
 	</div>
@@ -165,7 +166,7 @@
 
 <div id="my-projects" class="container-fluid text-center">
   <h2>MY PROJECTS</h2>
-  <h3>Here you can see all projects that you have signed up to.</h3>
+  <h3>Here you can see all your projects.</h3>
   <br><br>
   <div class="row slideanim">
     <div class="col-sm-4">
@@ -184,8 +185,21 @@
       <p>We have a wide variety of workshops for community groups,  children and adults that take a look at some of the facts around Climate Change. </p>
     </div>
   </div>
-  <br><br>
 </div>
+
+<div id="map" class="container-fluid text-center">
+	<h2>PROJECT MAP</h2>
+	<h3>Find projects near you.</h3><br />
+	<div class="row">
+	<div class="col-sm-1"></div>
+	<div class="col-sm-10">
+	{{ all_projects_map.js }}
+	{{ all_projects_map.html }}
+	</div>
+	<div class="col-sm-1"></div>
+	</div>
+</div>
+
 <div id="all-projects" class="container-fluid text-center">
   <h2>ALL PROJECTS</h2>
   <h3>Find projects that might interest you.</h3>

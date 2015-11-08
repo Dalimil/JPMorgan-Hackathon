@@ -7,8 +7,12 @@ from models import db
 from models import User
 import requests
 import json
+from create_map import create_map
+from flask.ext.googlemaps import Map
+from flask.ext.googlemaps import GoogleMaps
 
 app = Flask(__name__)
+GoogleMaps(app)
 
 app.secret_key = "bnNoqxXSgzoXSOezxpfdvadrMp5L0L4mJ4o8nRzn"
 
@@ -20,15 +24,19 @@ app.register_blueprint(api)
 def index():
     email = None
     all_projects = None
+    all_projects_map = None
     my_projects = None
     if 'email' in session:
         #loggedIn
         email = session['email']
-        my_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
-        all_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
+        my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
+        all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+        all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"][:1].upper()+i["name"][1:]+"</p>" for i in all_projects])
+        print(my_projects)
+        print(all_projects)
         print('Logged in as {}'.format(email))
 
-    return render_template('index.html', email=email, all_projects=all_projects, my_projects=my_projects)
+    return render_template('index.html', email=email, all_projects=all_projects, all_projects_map=all_projects_map, my_projects=my_projects)
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -80,7 +88,8 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
-    all_projects = False
+    all_projects = None
+    all_users = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -91,12 +100,14 @@ def admin():
         if 'admin' in session:
             #logged in as admin
             loggedIn = True
-            all_projects = json.loads(requests.post(url="https://5812d998.ngrok.com/projects").text)["data"]
+            all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+            all_users = json.loads(requests.get(url="https://5812d998.ngrok.com/users").text)["data"]
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
 @app.route('/admin/volunteer', methods=['GET', 'POST'])
 def volunteer():
+    return render_template('volunteer.html')
     if 'admin' in session:
         if request.method == 'POST':
             firstname = request.form['firstname']
@@ -109,6 +120,23 @@ def volunteer():
  
     else:
         return redirect(url_for('admin'))
+
+
+@app.route('/admin/projects',methods=['GET','POST'])
+def projects():
+    if 'admin' in session:
+        if request.method == 'POST':
+            projectname = request.form['projectname']
+            description = request.form['description']
+            
+            address = request.form['address']
+            num_people = request.form['num_people']
+        if (projectname == '' or description == '' or address == '' or num_people == ''):
+            print "Could not submit: empty field"
+	
+    return render_template('projects.html');
+                   
+
 
 
 @app.route('/report')
