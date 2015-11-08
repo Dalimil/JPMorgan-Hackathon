@@ -8,12 +8,14 @@ public class ReportData {
     private String description;
     private String longitude;
     private String latitude;
+    private String kind;
 
-    public ReportData(String encodedImage, String description, String longitude, String latitude){
+    public ReportData(String encodedImage, String description, String longitude, String latitude, String kind){
         this.encodedImage = encodedImage;
         this.description = description;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.kind = kind;
     }
 
     public String getEncodedImage() {
@@ -30,5 +32,9 @@ public class ReportData {
 
     public String getLatitude() {
         return latitude;
+    }
+
+    public String getKind() {
+        return kind;
     }
 }
