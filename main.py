@@ -187,8 +187,8 @@ def email(project_id):
     if 'admin' in session:
         if request.method == 'POST':
             url = "https://api.mailgun.net/v3/sandboxff7ed2cffc264af087e9442d1e5b02e8.mailgun.org/messages"
-
-            text = request.form["text"]
+            print request
+            text = request.get["text"]
             subject = request.form["subject"]
 
             for user in Project.query.filter_by(id=project_id).first().users:
