@@ -3,7 +3,6 @@
 {% block title %}Report{% endblock %}
 {% block head %}
   {{ super() }}
-
   <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
   <style>
@@ -56,51 +55,6 @@
       height: 100%;
       margin-bottom: 10px;
   }
-	.panel {
-	    border: 1px solid #0CAB93;
-	    border-radius:0;
-	    transition: box-shadow 0.5s;
-	}
-
-	.panel:hover {
-	    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
-	}
-
-	.panel-footer .btn:hover {
-	    border: 1px solid #D9534F;
-	    background-color: #fff !important;
-	    color: #D9534F;
-	}
-
-	.panel-heading {
-	    color: #fff !important;
-	    background-color: #0CAB93 !important;
-	    padding: 5px;
-	    border-bottom: 1px solid transparent;
-	    border-top-left-radius: 0px;
-	    border-top-right-radius: 0px;
-	    border-bottom-left-radius: 0px;
-	    border-bottom-right-radius: 0px;
-	}
-
-	.panel-footer {
-	    background-color: #fff !important;
-	}
-
-	.panel-footer h3 {
-	    font-size: 32px;
-	}
-
-	.panel-footer h4 {
-	    color: #aaa;
-	    font-size: 14px;
-	}
-
-	.panel-footer .btn {
-	    margin: 15px 0;
-	    background-color: #D9534F;
-	    color: #fff;
-	}
 
   .navbar {
       margin-bottom: 0;
@@ -177,8 +131,19 @@
 {% endblock %}
 
 {% block content %}
-<body class="container">
+<body>
 <div class="jumbotron text-center">
+	<div class="row">
+	<div class="col-sm-7">
+	<h1>Reports, issues, requests</h1>
+	</div>
+    <div class="col-sm-4">
+       <div style="text-align: right;">
+        <img width="50%" src="{{ url_for('static', filename='img/logo.png') }}"> 
+       </div>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
   <img src="{{ url_for('static', filename='img/logo.png') }}"> 
   <p>Community Led Environmental Projects<br />In The South Side Of Glasgow</p> <br /><br />
   <form method="POST" action="/login" class="form-horizontal">
