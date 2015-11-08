@@ -5,6 +5,7 @@
   {{ super() }}
   <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
   <link href="http://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+  {{ all_projects_map.js }}
   <style>
   body {
       font: 400 15px Lato, sans-serif;
@@ -302,7 +303,7 @@
         <li><a href="#about">ABOUT</a></li>
         <li><a href="#register">REGISTER</a></li>
         <li><a href="#services">PROJECTS</a></li>
-        <li><a href="#contact">CONTACT</a></li>
+        <li><a href="#report">REPORT</a></li>
       </ul>
     </div>
   </div>
@@ -438,31 +439,37 @@
   </div>
 </div>
 
-<!-- Container (Contact Section) -->
-<div id="contact" class="container-fluid bg-grey">
-  <h2 class="text-center">CONTACT</h2>
-  <div class="row">
+<!-- Container (Report Section) -->
+<div id="report" class="container-fluid bg-grey">
+  <h2 class="text-center">REPORTS, REQUESTS AND ISSUES</h2><br />
+  <div class="row slideanim">
     <div class="col-sm-5">
       <p>Contact us and we'll get back to you within 24 hours.</p>
       <p><span class="glyphicon glyphicon-map-marker"></span> Glasgow, UK</p>
-      <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
-      <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>	   
+      <p><span class="glyphicon glyphicon-phone"></span> +44 01234 56789</p>
+      <p><span class="glyphicon glyphicon-envelope"></span> someone@urbanroots.org.uk</p>	   
     </div>
-    <div class="col-sm-7 slideanim">
+    <div class="col-sm-7">
+    <form action="/report" method="POST" enctype="multipart/form-data">
       <div class="row">
         <div class="col-sm-6 form-group">
-          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+          <input class="form-control input-md" name="name" placeholder="Name" type="text" required>
         </div>
         <div class="col-sm-6 form-group">
-          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+          <input class="form-control input-md" name="image_file" type="file" required>
         </div>
       </div>
-      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+      <div class="col-sm-12 form-group">
+      <textarea class="form-control input-md" name="description" placeholder="Description" rows="5"></textarea>
+      </div>
+      </div>
       <div class="row">
         <div class="col-sm-12 form-group">
-          <button class="btn btn-default pull-right" type="submit">Send</button>
+          <button class="btn btn-default btn-lg pull-right" type="submit">Send</button>
         </div>
-      </div>	
+      </div>
+      </form>	
     </div>
   </div>
 </div>

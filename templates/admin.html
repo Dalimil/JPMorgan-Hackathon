@@ -288,23 +288,168 @@
     {% endfor %}
   </div>
 </div>
-   
+<div id="add_new_project" class="container-fluid bg-grey">
+  <div class="row">
+
+    <div class="col-sm-offset-2 col-sm-5">
+    <h2>Create a new project</h2>
+      <form action="/new_project" method="POST" class="form-group">
+          <div class="row form-group">
+          <div class="col-sm-12">
+              <label for="ex1">Name</label>
+              <input type="text" name="name" class="form-control" placeholder="First Name" required>
+          </div>
+          </div>
+          <div class="row form-group">
+        <div class="col-sm-6">
+              <label for="ex1">Date</label>
+              <input type="text" name="date" class="form-control" placeholder="Date" required>
+          </div>
+          <div class="col-sm-6 form-group">
+              <label for="ex1">Number of People</label>
+              <input type="text" name="num_people" class="form-control" placeholder="Number of people" required>
+          </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-12 form-group">
+              <label for="ex1">Address</label>
+              <input type="text" name="address" class="form-control" placeholder="Address" required>
+          </div>
+          <div class="row">
+          <div class="col-sm-12 form-group" style="margin: 15px">
+              <label for="ex1">Description</label>
+              <textarea name="description" style="width: 95%" class="form-control" placeholder="Description" required></textarea>
+          </div>
+          </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-sm-12">  
+            <button type="submit" class="btn btn-danger btn-lg">Create</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-5">
+    <div style="text-align: center;margin:50px;"><span class="glyphicon glyphicon-cog logo slideanim"></span></div>
+    </div>
+  </div>
+</div>
+
 <div id="users" class="container-fluid text-center">
-    <h2>ALL USERS</h2>
-    <h4>Create a new project</h4>
-      <form action="" method="POST" id="projectform">
-        <h3>Name of Project:</h3>
-        <input type="text" name="name">
-        <h3>Address</h3>
-        <input type="text" name="address">
-        <h3>Number of people</h3>   
-        <input type="text" name="num_people"> 
-        <h3>Description:</h3>
-        <input cols="40" rows="5" name="description" type="textarea">
-        
-        <button type="submit" class="btn btn-success btn-lg">Create</button>
-        
-      </form>  
+<h2>ALL USERS</h2>
+  <h3>See all existing users here.</h3><br />
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+  {{ all_users_map.js }}
+  {{ all_users_map.html }}
+  </div>
+  <div class="col-sm-1"></div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    {% for item in all_users %}
+        <div class="col-sm-3">
+        <div class="panel panel-default text-center" style="text-align:justify">
+          <div class="panel-heading" style="text-align:center">
+            <h1 style="font-size: 30px;">{{ item.first_name }} {{ item.last_name }}</h1>
+          </div>
+          <div class="panel-body">
+            <p><strong>Email: </strong>{{ item.email }}</p>
+            <p><strong>Phone: </strong>{{ item.phone }} </p>
+            <p><strong>Postcode: </strong>{{ item.address }}</p>
+          </div>
+        </div>
+        </div>
+    {% endfor %}
+</div>
+
+</div>
+<div id="register_user" class="container-fluid bg-grey">
+  <div class="row">
+
+    <div class="col-sm-offset-2 col-sm-5">
+    <h2>Register</h2>
+      <form action="/register?ref=admin" method="POST" class="form-group">
+          <div class="row form-group">
+          <div class="col-sm-6">
+              <label for="ex1">First Name</label>
+              <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+          </div>
+          <div class="col-sm-6">
+              <label for="ex1">Last Name</label>
+              <input type="text" name="last_name" class="form-control" size="13" placeholder="Last Name" required>
+          </div>
+          </div>
+          <div class="row form-group">
+        <div class="col-sm-12">
+              <label for="ex1">Email Address</label>
+              <input type="email" name="email" class="form-control" size="30" placeholder="Email Address" required>
+          </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-12 form-group">
+              <label for="ex1">Password</label>
+              <input type="password" name="password" class="form-control" size="30" placeholder="Password" required>
+          </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-6 form-group">
+              <label for="ex1">Phone Number</label>
+              <input type="text" name="phone" class="form-control" size="30" placeholder="Phone number" required>
+          </div>
+          <div class="col-sm-6 form-group">
+              <label for="ex1">Postcode</label>
+              <input type="text" name="address" class="form-control" size="30" placeholder="Postcode - e.g. G13 1AE" required>
+          </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-sm-12">  
+            <button type="submit" class="btn btn-danger btn-lg">Register</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-5">
+    <div style="text-align: center;margin:50px;"><span class="glyphicon glyphicon-cog logo slideanim"></span></div>
+    </div>
+  </div>
+</div>
+
+<div id="reports" class="container-fluid text-center">
+  <h2>ALL REPORTS</h2>
+  <h3>See all existing reports, requests and issues here.</h3><br />
+  <div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+  {{ all_issues_map.js }}
+  {{ all_issues_map.html }}
+  </div>
+  <div class="col-sm-1"></div>
+  </div>
+  <br><br>
+  <div class="row slideanim">
+    {% for item in all_issues %}
+        <div class="col-sm-4">
+        <div class="panel panel-default text-center" style="text-align:justify">
+          <div class="panel-heading" style="text-align:center">
+            <h1 style="font-size: 30px;">{{ item.kind }}</h1>
+          </div>
+          <div class="panel-body">
+            <p><strong>Date: </strong>{{ item.date }}</p>
+            <p><strong>Image: </strong>{{ item.image }}</p>
+            <p><strong>Description: </strong>{{ item.description }}</p>
+          </div>
+          <div class="panel-footer plan" style="text-align:center">
+          <form action="/remove_issue" method="POST">
+              <input type="hidden" name="issue_id" value="{{ item.id }}">
+              <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-remove"></span>&nbsp;Resolve</button>
+            </form>
+        </div>
+        </div>
+        </div>
+    {% endfor %}
+  </div>
 </div>
 
 <footer class="container-fluid text-center">

@@ -1,20 +1,17 @@
 # Urban Roots
 
-## Team info
+## TODO
 
-Find your .html file in the templates folder 
+api.py -> /remove_issue implement functionality (remove an issue with a give issue_id)
+
+main.py -> report receives a file ...where to save it
+
 
 ## Installation
 
 #### Install required packages
-
-Start by installing
 ```sh
 sudo apt-get install libpq-dev python-dev
-```
-
-Then
-```sh
 pip install -r requirements.txt
 ```
 

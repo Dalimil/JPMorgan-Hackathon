@@ -37,10 +37,10 @@ def index():
         names_my_p = [i["name"] for i in my_projects]
         greens = [(i["lat"], i["lng"]) for i in all_projects if i["name"] in names_my_p]
         reds = [(i["lat"], i["lng"]) for i in all_projects if i["name"] not in names_my_p]
-        infoboxReds = ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] not in names_my_p]
-        infoboxGreens = ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] in names_my_p]
+        infoboxReds = ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] not in names_my_p]
+        infoboxGreens = ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects if i["name"] in names_my_p]
         
-        all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", {"http://maps.google.com/mapfiles/ms/icons/green-dot.png":greens, "http://maps.google.com/mapfiles/ms/icons/red-dot.png":reds}, infoboxGreens+infoboxReds)
+        all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", {"http://maps.google.com/mapfiles/ms/icons/green-dot.png":greens, "http://maps.google.com/mapfiles/ms/icons/red-dot.png":reds}, infoboxGreens+infoboxReds, "projects01")
         all_projects = [i for i in all_projects if i["name"] not in names_my_p]
         print(my_projects)
         print(all_projects)
@@ -86,6 +86,10 @@ def register():
         session['email'] = email
     else:
         print "Error during registration"
+
+    ref = request.args.get('ref', '');
+    if(ref == 'admin'):
+        return redirect(url_for("admin"))
     return redirect(url_for("index"))
 
 @app.route('/logout')
@@ -115,12 +119,41 @@ def project_leave():
 
     return redirect(url_for('index'))
 
+@app.route('/new_project', methods=['POST'])
+def create_project():
+    r = requests.post(url=DOMAIN+"/create_project", 
+        data=json.dumps({
+            "name":request.form["name"],
+            "num_people":request.form["num_people"],
+            "description":request.form["description"],
+            "date":request.form["date"],
+            "address":request.form["address"]}))
+
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during project creation"
+
+    return redirect(url_for('admin'))
+
+@app.route('/resolve_issue', methods=['POST'])
+def resolve_issue():
+    r = requests.post(url=DOMAIN+"/remove_issue", data=json.dumps({"issue_id":request.form["issue_id"]}))
+
+    res = json.loads(r.text)["result"]
+    if not res:
+        print "Error during issue removal"
+
+    return redirect(url_for('admin'))
+
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
     all_projects = None
     all_users = None
     all_projects_map = None
+    all_users_map = None
+    all_issues = None
+    all_issues_map = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -133,54 +166,14 @@ def admin():
             loggedIn = True
             all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
             all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
-            all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects])
+            all_issues = json.loads(requests.get(url=DOMAIN+"/issues").text)["data"]
+            style="width:100%;height:400px;border: 1px solid black; border-radius: 15px;"
+            all_projects_map = create_map(style, [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"].upper()+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects], "projects01")
+            all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_users], ["<p><strong>"+i["first_name"].upper()+" "+i["last_name"].upper()+"</strong></p>" for i in all_users], "users01")
+            all_users_map = create_map(style, [(i["lat"], i["lng"]) for i in all_issues], ["<p><strong>"+i["kind"].upper()+"</strong></p>" for i in all_issues], "issues01")
 
-    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users)
+    return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects, all_projects_map=all_projects_map, all_users=all_users, all_users_map=all_users_map, all_issues=all_issues, all_issues_map=all_issues_map)
 
-'''
-@app.route('/admin/volunteer', methods=['GET', 'POST'])
-def volunteer():
-    if request.method == 'POST':
-        firstname = request.form['firstname']
-        lastname = request.form['lastname']
-        email = request.form['email']
-        password = request.form['password']
-        address = request.form['address']
-        phone = request.form['phone']
-
-        newVolunteer = User(firstname,lastname,email,password,address, phone)
-        db.session.add(newVolunteer)
-        db.session.commit()
-         
-    if request.method == 'POST':
-        searchname = request.form['searchname']
-        searchDB = User.query.(last_name=searchname)
-
-    users = User.query.all()
-    #query = db.session.execute("SELECT * FROM User") 
-    return render_template('volunteer.html',users=users,searchDB=searchDB);
- 
-
-@app.route('/admin/projects',methods=['GET','POST'])
-def projects():
-    if 'admin' in session:
-        if request.method == 'POST':
-            name = request.form['name']
-            description = request.form['description']
-            address = request.form['address']
-            num_people = request.form['num_people']
-            image = request.form.get("image",None)
-            if (name == '' or description == '' or address == '' or num_people == ''):
-                print "Could not submit: empty field"
-            else:
-            	p = Project(name, description, address, int(num_people), image)
-            	db.session.add(p)
-            	db.session.commit()
-
-    projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
-    return render_template('projects.html',projects=projects);
-
-'''
 
 @app.route('/admin/email/<project_id>',methods=['GET','POST'])
 def email(project_id):
@@ -188,7 +181,7 @@ def email(project_id):
         if request.method == 'POST':
             url = "https://api.mailgun.net/v3/sandboxff7ed2cffc264af087e9442d1e5b02e8.mailgun.org/messages"
             print request
-            text = request.get["text"]
+            text = request.form["description"]
             subject = request.form["subject"]
 
             for user in Project.query.filter_by(id=project_id).first().users:
@@ -201,12 +194,16 @@ def email(project_id):
             return redirect(url_for('admin'))
             
         if request.method == 'GET':
-            return render_template('email.html',project_id=project_id);
+            return render_template('email.html');
 
 
-@app.route('/report')
+@app.route('/report', methods=['POST'])
 def report():
-    return render_template('report.html')
+    f = request.files['image_file']
+    name = request.form['name']
+    description = request.form['description']
+    # where do we save the image: f.save('/var/www/uploads/uploaded_file.txt')
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(port=8080, debug=False, threaded=True) 
