@@ -74,18 +74,21 @@ def users(project_id=None):
 	print proj_list
 	return json.dumps({"data":proj_list})
 
-@api.route("/issue", methods=["GET","POST"])
-def issue():
-	if request.method == "POST":
-		data = json.loads(request.data)
-		issue = Issue(data["description"], data["lat"], data["lng"], data["kind"])
-		db.session.add(issue)
-		db.session.commit()
-		fh = open("issue_pics/{}.png".format(issue.id), "wb")
-		fh.write(data["image"].decode('base64'))
-		fh.close()
+@api.route("/create_issue", methods=["POST"])
+def create_issue():
+	data = json.loads(request.data)
+	issue = Issue(data["description"], data["lat"], data["lng"], data["kind"])
+	db.session.add(issue)
+	db.session.commit()
+	fh = open("issue_pics/{}.png".format(issue.id), "wb")
+	fh.write(data["image"].decode('base64'))
+	fh.close()
 
-		return json.dumps({"result":True})
+	return json.dumps({"result":True})
+
+@api.route("/issues")
+def issues():
+	return json.dumps({"data":[row2dict(i) for i in Issue.query.all()]})
 
 @api.route("/project_image/<project_id>", methods=["GET"])
 def project_image(project_id):

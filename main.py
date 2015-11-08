@@ -20,6 +20,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = "postgres://wigdnybtvbxjyl:VI5y4w1SgdVdo
 db.init_app(app)
 app.register_blueprint(api)
 
+DOMAIN = "https://558e229b.ngrok.com"
+
 @app.route('/')
 def index():
     email = None
@@ -29,8 +31,8 @@ def index():
     if 'email' in session:
         #loggedIn
         email = session['email']
-        my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
-        all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+        my_projects = json.loads(requests.get(url=DOMAIN+"/projects/"+email).text)["data"]
+        all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
         names_my_p = [i["name"] for i in my_projects]
         greens = [(i["lat"], i["lng"]) for i in all_projects if i["name"] in names_my_p]
         reds = [(i["lat"], i["lng"]) for i in all_projects if i["name"] not in names_my_p]
@@ -50,7 +52,7 @@ def login():
     email = request.form['email']
     password = request.form['password']
     # check credentials against database here
-    r = requests.post(url="https://5812d998.ngrok.com/authenticate",data=json.dumps({"email":email, "password":password}))
+    r = requests.post(url=DOMAIN+"/authenticate",data=json.dumps({"email":email, "password":password}))
     
     auth = json.loads(r.text)["result"]
 
@@ -70,7 +72,7 @@ def register():
     password = request.form['password']
     address = request.form['address']
     phone = request.form['phone']
-    r = requests.post(url="https://5812d998.ngrok.com/create_user",
+    r = requests.post(url=DOMAIN+"/create_user",
         data=json.dumps({
             "first_name":first_name,
             "last_name":last_name,
@@ -94,7 +96,7 @@ def logout():
 
 @app.route('/project_sign_up', methods=['POST'])
 def project_sign_up():
-    r = requests.post(url="https://5812d998.ngrok.com/add_project", 
+    r = requests.post(url=DOMAIN+"/add_project", 
         data=json.dumps({"email":request.form["email"], "project_id":request.form["project_id"]}))
     res = json.loads(r.text)["result"]
     if not res:
@@ -117,10 +119,10 @@ def admin():
         if 'admin' in session:
             #logged in as admin
             loggedIn = True
-            all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
-            all_users = json.loads(requests.get(url="https://5812d998.ngrok.com/users").text)["data"]
+            all_projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
+            all_users = json.loads(requests.get(url=DOMAIN+"/users").text)["data"]
             all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", [(i["lat"], i["lng"]) for i in all_projects], ["<p><strong>"+i["name"][:1].upper()+i["name"][1:]+"</strong></p><p><strong>Availability: </strong>"+str(i["count"])+"/"+str(i["num_people"])+"</p>" for i in all_projects])
-
+            
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
 
@@ -140,7 +142,7 @@ def projects():
             	db.session.add(p)
             	db.session.commit()
 
-    projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+    projects = json.loads(requests.get(url=DOMAIN+"/projects").text)["data"]
     return render_template('projects.html',projects=projects);
         
 @app.route('/admin/email/<project_id>',methods=['GET','POST'])
