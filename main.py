@@ -31,7 +31,12 @@ def index():
         email = session['email']
         my_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects/"+email).text)["data"]
         all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
-        all_projects_map = create_map("", [(i["lat"], i["lng"]) for i in all_projects], ["<p>"+i["name"]+"</p>" for i in all_projects])
+        names_my_p = [i["name"] for i in my_projects]
+        greens = [(i["lat"], i["lng"]) for i in all_projects if i["name"] in names_my_p]
+        reds = [(i["lat"], i["lng"]) for i in all_projects if i["name"] not in names_my_p]
+        infoboxReds = ["<p>"+i["name"][:1].upper()+i["name"][1:]+"</p>" for i in all_projects if i["name"] not in names_my_p]
+        infoboxGreens = ["<p>"+i["name"][:1].upper()+i["name"][1:]+"</p>" for i in all_projects if i["name"] in names_my_p]
+        all_projects_map = create_map("width:100%;height:400px;border: 1px solid black; border-radius: 15px;", {"http://maps.google.com/mapfiles/ms/icons/green-dot.png":greens, "http://maps.google.com/mapfiles/ms/icons/red-dot.png":reds}, infoboxGreens.extend(infoboxReds))
         print(my_projects)
         print(all_projects)
         print('Logged in as {}'.format(email))
@@ -88,7 +93,8 @@ def logout():
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     loggedIn = False
-    all_projects = False
+    all_projects = None
+    all_users = None
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -100,6 +106,7 @@ def admin():
             #logged in as admin
             loggedIn = True
             all_projects = json.loads(requests.get(url="https://5812d998.ngrok.com/projects").text)["data"]
+            all_users = json.loads(requests.get(url="https://5812d998.ngrok.com/users").text)["data"]
 
     return render_template('admin.html', loggedIn=loggedIn, all_projects=all_projects)
 
