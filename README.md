@@ -1,4 +1,5 @@
 # JPMorgan Chase - "Code for Good" Hackathon (Glasgow, 7-8th Nov 2015)
+*This repository is a fork/mirror of the [original repository](https://github.com/Glasgow2015/team-5).*
 
 **Target non-profit organization:** [Urban Roots](http://www.urbanroots.org.uk/)
 
@@ -6,11 +7,11 @@
 
 ## Screenshots
 
-![01](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_10-58-53.png)
-![02](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_11-09-04.png)
-![03](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_11-13-23.png)
-![04](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_11-15-07.png)
-![05](https://github.com/Glasgow2015/team-5/blob/master/screenshots/Screenshot_2015-11-08_10-59-56.png)
+![01](https://github.com/Dalimil/JPMorgan-Hackathon/blob/master/screenshots/Screenshot_2015-11-08_10-58-53.png)
+![02](https://github.com/Dalimil/JPMorgan-Hackathon/blob/master/screenshots/Screenshot_2015-11-08_11-09-04.png)
+![03](https://github.com/Dalimil/JPMorgan-Hackathon/blob/master/screenshots/Screenshot_2015-11-08_11-13-23.png)
+![04](https://github.com/Dalimil/JPMorgan-Hackathon/blob/master/screenshots/Screenshot_2015-11-08_11-15-07.png)
+![05](https://github.com/Dalimil/JPMorgan-Hackathon/blob/master/screenshots/Screenshot_2015-11-08_10-59-56.png)
 
 
 ## Installation
